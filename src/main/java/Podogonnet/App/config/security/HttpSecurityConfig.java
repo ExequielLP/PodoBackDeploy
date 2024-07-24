@@ -86,7 +86,7 @@ public class HttpSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://podogonnet.netlify.app","https://podofrontdeploy.onrender.com"));
+        configuration.setAllowedOrigins(Arrays.asList("https://podofrontdeploy.onrender.com"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
