@@ -20,7 +20,7 @@ public class AdminService implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (usuarioRepository.findByUserName("admin").isEmpty()) {
+        if (usuarioRepository.findByUserName("administrador").isEmpty()) {
             Usuario admin = new Usuario();
             admin.setUserName("administrador");
             admin.setNombre("Administrador");
