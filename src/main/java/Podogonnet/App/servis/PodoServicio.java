@@ -40,6 +40,7 @@ public class PodoServicio {
             servicioPodoDb.setDescripcion(descripcion);
             servicioPodoDb.setCosto(costo);
             servicioPodoDb.setImagen(imagen);
+            servicioPodoDb.setEstado(true);
             podoRepository.save(servicioPodoDb);
             return servicioPodoDb;
         } catch (Exception e) {
