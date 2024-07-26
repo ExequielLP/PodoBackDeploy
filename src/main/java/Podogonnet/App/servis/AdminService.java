@@ -31,6 +31,7 @@ public class AdminService implements CommandLineRunner {
                 admin.setRol(Rol.ADMIN);
                 System.out.println("ADMIN GENERADO CON EXITO!");
                 usuarioRepository.save(admin);
+                // hola
             }
 
         } catch (Exception e) {
