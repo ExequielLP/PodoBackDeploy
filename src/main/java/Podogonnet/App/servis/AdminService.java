@@ -20,15 +20,22 @@ public class AdminService implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (usuarioRepository.findByUserName("administrador").isEmpty()) {
-            Usuario admin = new Usuario();
-            admin.setUserName("administrador");
-            admin.setNombre("Administrador");
-            admin.setEmail("admin@example.com");
-            admin.setPassword(passwordEncoder.encode("123456"));
-            admin.setRol(Rol.ADMIN);
+        try {
 
-            usuarioRepository.save(admin);
+            if (usuarioRepository.findByUserName("admin").isEmpty()) {
+                Usuario admin = new Usuario();
+                admin.setUserName("admin");
+                admin.setNombre("Administrador");
+                admin.setEmail("admin@example.com");
+                admin.setPassword(passwordEncoder.encode("123456"));
+                admin.setRol(Rol.ADMIN);
+                System.out.println("ADMIN GENERADO CON EXITO!");
+                usuarioRepository.save(admin);
+            }
+
+        } catch (Exception e) {
+            throw new Exception(e.getMessage() + "Error al cargar el admin manualmente");
+
         }
     }
 }
