@@ -17,4 +17,6 @@ public interface TurnoRepository extends JpaRepository<Turno , String> {
 
 
     List<Turno> findByUsuario(Usuario usuario);
+
+    boolean existsByStartTimeAndEndTime(LocalDateTime startTime, LocalDateTime endTime);
 }

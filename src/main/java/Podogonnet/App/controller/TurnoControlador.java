@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Controller
@@ -22,9 +23,17 @@ public class TurnoControlador {
     private TurnoServicio turnoServicio;
 
     //creo turnos para 1 semana
+//    @PostConstruct
+//    public void createDailyAppointmentsAtStartup() {
+//
+//        turnoServicio.createDailyAppointmentsForAWeek();
+//    }
     @PostConstruct
-    public void createDailyAppointmentsAtStartup() {
-        turnoServicio.createDailyAppointmentsForAWeek();
+    public String generarTurnos() {
+        LocalDate inicio = LocalDate.now();
+        LocalDate fin = inicio.plus(1, ChronoUnit.YEARS);
+        turnoServicio.generarTurnos(inicio, fin);
+        return "Turnos generados exitosamente";
     }
 
     @GetMapping("turnoDelDia/{date}")
