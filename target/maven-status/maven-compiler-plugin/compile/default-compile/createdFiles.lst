@@ -12,6 +12,7 @@ Podogonnet\App\dto\SaveUser.class
 Podogonnet\App\enums\RolPermission.class
 Podogonnet\App\servis\PodoServicio.class
 Podogonnet\App\repository\UsuarioRepositorio.class
+Podogonnet\App\servis\AdminService.class
 Podogonnet\App\config\security\HttpSecurityConfig.class
 Podogonnet\App\config\security\SecurityBeanInjector.class
 Podogonnet\App\servis\auth\AutheticateService.class

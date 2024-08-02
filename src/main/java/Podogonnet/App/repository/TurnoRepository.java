@@ -10,11 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TurnoRepository extends JpaRepository<Turno , String> {
-    List<Turno> findByStartTimeBetween(LocalDateTime startTime, LocalDateTime endTime);
+public interface TurnoRepository extends JpaRepository<Turno, String> {
+    List<Turno> findByStartTimeBetweenAndEstadoFalse(LocalDateTime startTime, LocalDateTime endTime);
 
     Optional<Turno> findById(String appointmentId);
-
 
     List<Turno> findByUsuario(Usuario usuario);
 

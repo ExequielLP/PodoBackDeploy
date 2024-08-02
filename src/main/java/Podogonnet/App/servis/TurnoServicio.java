@@ -12,15 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.*;
 import java.util.List;
 import java.util.Optional;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 public class TurnoServicio {
-
 
     @Autowired
     private TurnoRepository turnoRepository;
@@ -36,13 +33,14 @@ public class TurnoServicio {
         LocalDateTime startOfDay = date.atTime(9, 0);
         // Fin del día a las 6:00 PM (18:00)
         LocalDateTime endOfDay = date.atTime(18, 0);
-        return turnoRepository.findByStartTimeBetween(startOfDay, endOfDay);
+        return turnoRepository.findByStartTimeBetweenAndEstadoFalse(startOfDay, endOfDay);
     }
 
     @Transactional
     public Turno reservarTurno(String id, String idServicio, String usuarioid) {
         Turno turno = turnoRepository.findById(id).orElseThrow(() -> new RuntimeException("Turno no encontrado"));
-        Usuario usuario = usuarioRepositorio.findById(usuarioid).orElseThrow(() -> new RuntimeException("Usario no encontrado"));
+        Usuario usuario = usuarioRepositorio.findById(usuarioid)
+                .orElseThrow(() -> new RuntimeException("Usario no encontrado"));
         ServicioPodo servicioPodo = podoServicio.findById(idServicio);
         turno.setServicioPodo(servicioPodo);
         turno.setEstado(!turno.isEstado());
@@ -51,31 +49,29 @@ public class TurnoServicio {
         return turno;
     }
 
-
-//    public void createDailyAppointmentsForAWeek() {
-//        // Verifica si no hay turnos creados
-//        if (turnoRepository.count() == 0) {
-//            LocalDate today = LocalDate.now();
-//            for (int day = 0; day < 7; day++) {
-//                LocalDate date = today.plusDays(day);
-//                LocalDateTime startOfDay = date.atTime(9, 0);
-//                for (int i = 0; i < 5; i++) { // Cambiado a 5 turnos
-//                    LocalDateTime startTime = startOfDay.plusHours(i * 2);
-//                    LocalDateTime endTime = startTime.plusHours(2);
-//                    Turno turno = new Turno();
-//                    turno.setStartTime(startTime);
-//                    turno.setEndTime(endTime);
-//                    turno.setEstado(false);
-//                    turnoRepository.save(turno);
-//                }
-//            }
-//        }
-//    }
+    // public void createDailyAppointmentsForAWeek() {
+    // // Verifica si no hay turnos creados
+    // if (turnoRepository.count() == 0) {
+    // LocalDate today = LocalDate.now();
+    // for (int day = 0; day < 7; day++) {
+    // LocalDate date = today.plusDays(day);
+    // LocalDateTime startOfDay = date.atTime(9, 0);
+    // for (int i = 0; i < 5; i++) { // Cambiado a 5 turnos
+    // LocalDateTime startTime = startOfDay.plusHours(i * 2);
+    // LocalDateTime endTime = startTime.plusHours(2);
+    // Turno turno = new Turno();
+    // turno.setStartTime(startTime);
+    // turno.setEndTime(endTime);
+    // turno.setEstado(false);
+    // turnoRepository.save(turno);
+    // }
+    // }
+    // }
+    // }
 
     public List<Turno> listaDeTurnosId(String id) {
 
         Usuario usuario = usuarioRepositorio.findById(id).orElseThrow();
-
 
         return turnoRepository.findByUsuario(usuario);
     }
@@ -112,7 +108,7 @@ public class TurnoServicio {
     private static final Set<LocalDate> FERIADOS = new HashSet<>(Arrays.asList(
             LocalDate.of(2024, Month.JANUARY, 1),
             LocalDate.of(2024, Month.JULY, 9)
-            // Añadir más feriados según corresponda
+    // Añadir más feriados según corresponda
     ));
 
     public boolean esDiaLaboral(LocalDate date) {
@@ -129,8 +125,7 @@ public class TurnoServicio {
                         LocalTime.of(10, 30),
                         LocalTime.of(14, 0),
                         LocalTime.of(15, 30),
-                        LocalTime.of(17, 30)
-                );
+                        LocalTime.of(17, 30));
 
                 for (LocalTime hora : horarios) {
                     LocalDateTime startTime = LocalDateTime.of(inicio, hora);
@@ -151,15 +146,3 @@ public class TurnoServicio {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
