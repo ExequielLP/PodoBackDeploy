@@ -38,16 +38,34 @@ public class TurnoServicio {
 
     @Transactional
     public Turno reservarTurno(String id, String idServicio, String usuarioid) {
-        Turno turno = turnoRepository.findById(id).orElseThrow(() -> new RuntimeException("Turno no encontrado"));
-        Usuario usuario = usuarioRepositorio.findById(usuarioid)
-                .orElseThrow(() -> new RuntimeException("Usario no encontrado"));
-        ServicioPodo servicioPodo = podoServicio.findById(idServicio);
-        turno.setServicioPodo(servicioPodo);
-        turno.setEstado(!turno.isEstado());
-        turno.setUsuario(usuario);
-        turnoRepository.save(turno);
-        return turno;
+        try {
+            // Buscar el turno por ID
+            Turno turno = turnoRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Turno no encontrado"));
+
+            // Buscar el usuario por ID
+            Usuario usuario = usuarioRepositorio.findById(usuarioid)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            // Verificar si el turno ya tiene un usuario asignado (está ocupado)
+            if (turno.getUsuario() != null) {
+                throw new RuntimeException("El turno ya está ocupado, lo siento");
+            }
+
+
+            // Obtener el servicio podal y asignar los detalles al turno
+            ServicioPodo servicioPodo = podoServicio.findById(idServicio);
+            turno.setServicioPodo(servicioPodo);
+            turno.setEstado(!turno.isEstado());
+            turno.setUsuario(usuario);
+            turnoRepository.save(turno);
+
+            return turno;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al reservar el turno: " + e.getMessage(), e);
+        }
     }
+
 
     // public void createDailyAppointmentsForAWeek() {
     // // Verifica si no hay turnos creados
