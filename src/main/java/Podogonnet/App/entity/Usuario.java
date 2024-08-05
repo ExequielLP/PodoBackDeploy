@@ -1,5 +1,8 @@
 package Podogonnet.App.entity;
 
+
+
+
 import Podogonnet.App.enums.Rol;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
