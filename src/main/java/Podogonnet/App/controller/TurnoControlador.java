@@ -1,6 +1,8 @@
 package Podogonnet.App.controller;
 
+import Podogonnet.App.entity.Dia;
 import Podogonnet.App.entity.Turno;
+import Podogonnet.App.servis.DiaServicio;
 import Podogonnet.App.servis.TurnoServicio;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class TurnoControlador {
 
     @Autowired
     private TurnoServicio turnoServicio;
+    @Autowired
+    private DiaServicio diaServicio;
 
     //creo turnos para 1 semana
 //    @PostConstruct
@@ -37,10 +41,13 @@ public class TurnoControlador {
     }
 
     @GetMapping("turnoDelDia/{date}")
-    public ResponseEntity<List<Turno>> listaDeTurnos(@PathVariable String date) {
+    public ResponseEntity<Dia> listaDeTurnos(@PathVariable String date) throws Exception {
+        System.out.println();
         LocalDate localDate = LocalDate.parse(date);
-        List<Turno> listaTurdenosDelDia = turnoServicio.turnosDelDia(localDate);
-        return ResponseEntity.ok(listaTurdenosDelDia);
+        Dia dia = diaServicio.turnosDelDia(localDate);
+        System.out.println("finnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+        System.out.println(dia);
+        return ResponseEntity.ok(dia);
     }
 
     @PostMapping("/reservarTurno/{turnoId}/{servicioId}/{usuarioid}")

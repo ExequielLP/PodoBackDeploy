@@ -43,7 +43,7 @@ public class JwtService {
     }
     private SecretKey generateKey(){
         byte[] passwordDecorder= Decoders.BASE64.decode(SECRETE_KEY);
-        System.out.println(new String(passwordDecorder));
+
         return Keys.hmacShaKeyFor(passwordDecorder);
 
     }
@@ -55,7 +55,7 @@ public class JwtService {
     }
 
     private Claims extracAllclaims(String jwt) {
-        System.out.println("hola aaaaaaaaaa aaaaaaaa");
+
 
             return Jwts.parser().verifyWith(generateKey()).build()
                     .parseSignedClaims(jwt).getPayload();

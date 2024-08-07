@@ -14,7 +14,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 @NoArgsConstructor
 @Data
 @Entity
-public class Imagen {
+public class Imagen extends Auditable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")

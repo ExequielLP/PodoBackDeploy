@@ -6,8 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -15,20 +14,26 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Turno extends Auditable {
+public class Dia {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    @ManyToOne
-    private ServicioPodo servicioPodo;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private boolean estado;
-    @ManyToOne
-    private Usuario usuario;
-    @ManyToOne
-    private Dia dia;
+    private LocalDate fecha;
+    private boolean feriado;
+    private boolean completo;
 
 
+    @OneToMany(mappedBy = "dia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Turno> turnos;
+
+    @Override
+    public String toString() {
+        return "Dia{" +
+                "id=" + id +
+                ", fecha=" + fecha +
+                ", feriado=" + feriado +
+                ", completo=" + completo +
+                '}';
+    }
 }

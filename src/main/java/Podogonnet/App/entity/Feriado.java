@@ -1,28 +1,27 @@
 package Podogonnet.App.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServicioPodo extends Auditable {
+public class Feriado {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    private String nombre;
-    @Column(columnDefinition = "TEXT")
+    private LocalDate fecha;
     private String descripcion;
-    private double costo;
-    @OneToOne
-    private Imagen imagen;
-    private boolean estado;
+
 
 }
