@@ -42,11 +42,8 @@ public class TurnoControlador {
 
     @GetMapping("turnoDelDia/{date}")
     public ResponseEntity<Dia> listaDeTurnos(@PathVariable String date) throws Exception {
-        System.out.println();
         LocalDate localDate = LocalDate.parse(date);
         Dia dia = diaServicio.turnosDelDia(localDate);
-        System.out.println("finnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
-        System.out.println(dia);
         return ResponseEntity.ok(dia);
     }
 

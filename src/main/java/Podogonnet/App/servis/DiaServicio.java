@@ -21,9 +21,11 @@ public class DiaServicio {
 
     public Dia turnosDelDia(LocalDate localDate) throws Exception {
         try {
+            System.out.println("andetro de pubkuc dua turnosDeLdIA");
             // Utilizamos el método definido en el repositorio para obtener los turnos por fecha
             Optional<Dia> diaRespuesta = diaRepositorio.findByFecha(localDate);
-
+            System.out.println(diaRespuesta);
+            System.out.println("SALIENDO de pubkuc dua turnosDeLdIA");
             if (diaRespuesta.isPresent()) {
                 Dia dia = diaRespuesta.get();
                 // Devolvemos el objeto Dia obtenido del repositorio

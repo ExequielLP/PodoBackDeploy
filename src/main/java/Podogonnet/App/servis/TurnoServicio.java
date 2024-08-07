@@ -116,13 +116,13 @@ public class TurnoServicio {
 
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             if (esDiaLaboral(date)) {
-                // Verificar si ya existen turnos para este día
-//                Optional<Dia> diaExistente = diaRepositorio.findByFecha(date);
-//
-//                if (diaExistente != null) {
-//                    // Si ya existe un día con turnos para esta fecha, continuar con el siguiente día
-//                    continue;
-//                }
+                // Verificar si ya existe un día con esta fecha
+                Optional<Dia> diaExistente = diaRepositorio.findByFecha(date);
+
+                if (diaExistente.isPresent()) {
+                    // Si ya existe un día con turnos para esta fecha, continuar con el siguiente día
+                    continue;
+                }
 
                 Dia dia = new Dia();
                 dia.setFecha(date);
@@ -138,7 +138,7 @@ public class TurnoServicio {
                     turno.setDia(dia);
                     turno.setStartTime(startDateTime);
                     turno.setEndTime(endDateTime);
-                    turno.setEstado(true); // Asume que el turno está disponible
+                    turno.setEstado(false); // Asume que el turno está disponible
                     turnosDelDia.add(turno);
                 }
 
