@@ -122,6 +122,10 @@ public class TurnoServicio {
         Optional<Turno> turnoOptional = turnoRepository.findById(id);
         if (turnoOptional.isPresent()) {
             Turno turno = turnoOptional.get();
+            turno.setEstado(false);
+            turno.setId(null);
+            turno.setServicioPodo(null);
+            turno.setUsuario(null);
             turno.setEstado(!turno.isEstado());
             turnoRepository.save(turno);
         }
