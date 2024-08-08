@@ -1,11 +1,14 @@
 package Podogonnet.App.controller;
 
+import Podogonnet.App.dto.TurnosUsuario;
 import Podogonnet.App.entity.ServicioPodo;
 import Podogonnet.App.entity.Turno;
 import Podogonnet.App.servis.ImagenServicio;
 import Podogonnet.App.servis.PodoServicio;
 import Podogonnet.App.servis.TurnoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,8 +46,14 @@ public class AdminController {
     }
 
     @GetMapping("/listaTurnoAdmin")
-    public ResponseEntity<List<Turno>> listaTurno() {
-        return ResponseEntity.ok(turnoServicio.findAll());
+    public ResponseEntity<Page<TurnosUsuario>>listaTurno(Pageable pageable) {
+        try {
+            Page<TurnosUsuario> page=turnoServicio.findAll(pageable);
+            return ResponseEntity.ok(page);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
 

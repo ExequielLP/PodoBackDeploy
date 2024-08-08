@@ -5,18 +5,21 @@ import Podogonnet.App.entity.Dia;
 import Podogonnet.App.entity.ServicioPodo;
 import Podogonnet.App.entity.Turno;
 import Podogonnet.App.entity.Usuario;
-
 import Podogonnet.App.repository.DiaRepositorio;
 import Podogonnet.App.repository.TurnoRepository;
-
 import Podogonnet.App.repository.UsuarioRepositorio;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 @Service
 public class TurnoServicio {
@@ -74,24 +77,24 @@ public class TurnoServicio {
 
     public List<TurnosUsuario> listaDeTurnosId(String id) {
 
-      try {
-          Usuario usuario = usuarioRepositorio.findById(id).orElseThrow();
-          List<TurnosUsuario> ListDto = new ArrayList<>();
-          List<Turno> turnos = turnoRepository.findByUsuario(usuario);
-          for (Turno turDB : turnos){
-              TurnosUsuario turnoDtp=new TurnosUsuario();
-              turnoDtp.setId(turDB.getId());
-              turnoDtp.setNombreServicio(turDB.getServicioPodo().getNombre());
-              turnoDtp.setCosto(turDB.getServicioPodo().getCosto());
-              turnoDtp.setStartTime(turDB.getStartTime());
-              turnoDtp.setEndTime(turDB.getEndTime());
-              turnoDtp.setEstado(turDB.isEstado());
-              ListDto.add(turnoDtp);
-          }
-          return ListDto;
-      }catch (Exception e){
-          throw new  RuntimeException("Error con traer los turnos del usuario"+e.getMessage());
-      }
+        try {
+            Usuario usuario = usuarioRepositorio.findById(id).orElseThrow();
+            List<TurnosUsuario> ListDto = new ArrayList<>();
+            List<Turno> turnos = turnoRepository.findByUsuario(usuario);
+            for (Turno turDB : turnos) {
+                TurnosUsuario turnoDtp = new TurnosUsuario();
+                turnoDtp.setId(turDB.getId());
+                turnoDtp.setNombreServicio(turDB.getServicioPodo().getNombre());
+                turnoDtp.setCosto(turDB.getServicioPodo().getCosto());
+                turnoDtp.setStartTime(turDB.getStartTime());
+                turnoDtp.setEndTime(turDB.getEndTime());
+                turnoDtp.setEstado(turDB.isEstado());
+                ListDto.add(turnoDtp);
+            }
+            return ListDto;
+        } catch (Exception e) {
+            throw new RuntimeException("Error con traer los turnos del usuario" + e.getMessage());
+        }
 
     }
 
@@ -113,9 +116,25 @@ public class TurnoServicio {
         }
     }
 
-    public List<Turno> findAll() {
-        return turnoRepository.findAll();
+    public Page<TurnosUsuario> findAll(Pageable pageable) {
+        Page<Turno> turnos = turnoRepository.findByEstadoTrue(pageable);
+        List<TurnosUsuario> turnosUsuarioList = new ArrayList<>();
+        for (Turno turnoAux : turnos) {
+            TurnosUsuario turnoDto=new TurnosUsuario();
+            turnoDto.setId(turnoAux.getId());
+            turnoDto.setNombreServicio(turnoAux.getServicioPodo().getNombre());
+            turnoDto.setStartTime(turnoAux.getStartTime());
+            turnoDto.setEndTime(turnoAux.getEndTime());
+            turnoDto.setEstado(turnoAux.isEstado());
+            turnoDto.setCosto(turnoAux.getServicioPodo().getCosto());
+            turnosUsuarioList.add(turnoDto);
+
+        }
+        Page<TurnosUsuario> turnoDto = new PageImpl<>(turnosUsuarioList, pageable,turnos.getSize() );
+
+        return turnoDto;
     }
+
 
     public void AltaBaja(String id) {
         Optional<Turno> turnoOptional = turnoRepository.findById(id);
@@ -177,5 +196,6 @@ public class TurnoServicio {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
     }
+
 
 }
