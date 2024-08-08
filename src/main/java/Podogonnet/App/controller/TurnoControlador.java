@@ -1,5 +1,6 @@
 package Podogonnet.App.controller;
 
+import Podogonnet.App.dto.TurnosUsuario;
 import Podogonnet.App.entity.Dia;
 import Podogonnet.App.entity.Turno;
 import Podogonnet.App.servis.DiaServicio;
@@ -55,10 +56,9 @@ public class TurnoControlador {
     }
 
     @GetMapping("/listaTurnos/{id}")
-    public ResponseEntity<List<Turno>>listaTurno(@PathVariable String id) {
+    public ResponseEntity<List<TurnosUsuario>>listaTurno(@PathVariable String id) {
 
         return ResponseEntity.ok(turnoServicio.listaDeTurnosId(id));
-
 
     }
     @GetMapping("/cancelarTurno/{id}")

@@ -1,5 +1,6 @@
 package Podogonnet.App.servis;
 
+import Podogonnet.App.dto.TurnosUsuario;
 import Podogonnet.App.entity.Dia;
 import Podogonnet.App.entity.ServicioPodo;
 import Podogonnet.App.entity.Turno;
@@ -13,6 +14,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.*;
 import java.util.*;
 
@@ -70,11 +72,25 @@ public class TurnoServicio {
     }
 
 
-    public List<Turno> listaDeTurnosId(String id) {
+    public List<TurnosUsuario> listaDeTurnosId(String id) {
 
-        Usuario usuario = usuarioRepositorio.findById(id).orElseThrow();
+      try {
+          Usuario usuario = usuarioRepositorio.findById(id).orElseThrow();
+          List<TurnosUsuario> ListDto = new ArrayList<>();
+          List<Turno> turnos = turnoRepository.findByUsuario(usuario);
+          for (Turno turDB : turnos){
+              TurnosUsuario turnoDtp=new TurnosUsuario();
+              turnoDtp.setNombreServicio(turDB.getServicioPodo().getNombre());
+              turnoDtp.setCosto(turDB.getServicioPodo().getCosto());
+              turnoDtp.setStartTime(turDB.getStartTime());
+              turnoDtp.setEndTime(turDB.getEndTime());
+              ListDto.add(turnoDtp);
+          }
+          return ListDto;
+      }catch (Exception e){
+          throw new  RuntimeException("Error con traer los turnos del usuario"+e.getMessage());
+      }
 
-        return turnoRepository.findByUsuario(usuario);
     }
 
     public Turno cancelarTurno(String id) {
