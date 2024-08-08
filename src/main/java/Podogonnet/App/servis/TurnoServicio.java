@@ -80,6 +80,7 @@ public class TurnoServicio {
           List<Turno> turnos = turnoRepository.findByUsuario(usuario);
           for (Turno turDB : turnos){
               TurnosUsuario turnoDtp=new TurnosUsuario();
+              turnoDtp.setId(turDB.getId());
               turnoDtp.setNombreServicio(turDB.getServicioPodo().getNombre());
               turnoDtp.setCosto(turDB.getServicioPodo().getCosto());
               turnoDtp.setStartTime(turDB.getStartTime());
