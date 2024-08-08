@@ -85,6 +85,7 @@ public class TurnoServicio {
               turnoDtp.setCosto(turDB.getServicioPodo().getCosto());
               turnoDtp.setStartTime(turDB.getStartTime());
               turnoDtp.setEndTime(turDB.getEndTime());
+              turnoDtp.setEstado(turDB.isEstado());
               ListDto.add(turnoDtp);
           }
           return ListDto;
@@ -100,6 +101,9 @@ public class TurnoServicio {
             if (turno.isPresent()) {
                 Turno turnoNew = turno.get();
                 turnoNew.setEstado(false);
+                turnoNew.setId(null);
+                turnoNew.setServicioPodo(null);
+                turnoNew.setUsuario(null);
                 turnoRepository.save(turnoNew);
                 return turnoNew;
             } else {

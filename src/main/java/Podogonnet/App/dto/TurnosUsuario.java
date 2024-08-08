@@ -10,4 +10,5 @@ public class TurnosUsuario {
     private double costo;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private boolean estado;
 }
