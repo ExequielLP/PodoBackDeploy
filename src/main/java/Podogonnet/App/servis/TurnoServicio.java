@@ -101,7 +101,6 @@ public class TurnoServicio {
             if (turno.isPresent()) {
                 Turno turnoNew = turno.get();
                 turnoNew.setEstado(false);
-                turnoNew.setId(null);
                 turnoNew.setServicioPodo(null);
                 turnoNew.setUsuario(null);
                 turnoRepository.save(turnoNew);
@@ -123,7 +122,6 @@ public class TurnoServicio {
         if (turnoOptional.isPresent()) {
             Turno turno = turnoOptional.get();
             turno.setEstado(false);
-            turno.setId(null);
             turno.setServicioPodo(null);
             turno.setUsuario(null);
             turno.setEstado(!turno.isEstado());

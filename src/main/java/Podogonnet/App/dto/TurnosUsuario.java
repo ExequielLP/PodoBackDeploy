@@ -11,4 +11,5 @@ public class TurnosUsuario {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private boolean estado;
+    private String nombreUsuario;
 }
