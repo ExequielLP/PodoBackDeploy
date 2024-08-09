@@ -29,9 +29,10 @@ public class DiaServicio {
             System.out.println("SALIENDO de pubkuc dua turnosDeLdIA");
             if (diaRespuesta.isPresent()) {
                 Dia dia = diaRespuesta.get();
-               TurnosUsuario turnosDTO=new TurnosUsuario();
+
                 List<TurnosUsuario> listaturnosDTO=new ArrayList<>();
                 for(Turno diaAUX: dia.getTurnos()){
+                    TurnosUsuario turnosDTO=new TurnosUsuario();
                     turnosDTO.setId(diaAUX.getId());
                     turnosDTO.setStartTime(diaAUX.getStartTime());
                     turnosDTO.setEndTime(diaAUX.getEndTime());
