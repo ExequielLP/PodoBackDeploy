@@ -20,7 +20,6 @@ import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 @Service
 public class TurnoServicio {
 
@@ -60,7 +59,6 @@ public class TurnoServicio {
                 throw new RuntimeException("El turno ya está ocupado, lo siento");
             }
 
-
             // Obtener el servicio podal y asignar los detalles al turno
             ServicioPodo servicioPodo = podoServicio.findById(idServicio);
             turno.setServicioPodo(servicioPodo);
@@ -73,7 +71,6 @@ public class TurnoServicio {
             throw new RuntimeException("Error al reservar el turno: " + e.getMessage(), e);
         }
     }
-
 
     public List<TurnosUsuario> listaDeTurnosId(String id) {
 
@@ -116,25 +113,33 @@ public class TurnoServicio {
         }
     }
 
-    public Page<TurnosUsuario> findAll(Pageable pageable) {
-        Page<Turno> turnos = turnoRepository.findByEstadoTrue(pageable);
-        List<TurnosUsuario> turnosUsuarioList = new ArrayList<>();
-        for (Turno turnoAux : turnos) {
-            TurnosUsuario turnoDto=new TurnosUsuario();
-            turnoDto.setId(turnoAux.getId());
-            turnoDto.setNombreServicio(turnoAux.getServicioPodo().getNombre());
-            turnoDto.setStartTime(turnoAux.getStartTime());
-            turnoDto.setEndTime(turnoAux.getEndTime());
-            turnoDto.setEstado(turnoAux.isEstado());
-            turnoDto.setCosto(turnoAux.getServicioPodo().getCosto());
-            turnosUsuarioList.add(turnoDto);
+    public Page<TurnosUsuario> getTurnosAdmin(Pageable pageable) {
+        try {
+            Page<Turno> turnos = turnoRepository.findByEstadoTrue(pageable);
+            System.out.println("-------------------------");
+            System.out.println("Total Elements: " + turnos.getTotalElements());
+            System.out.println("-------------------------");
+            List<TurnosUsuario> turnosUsuarioList = new ArrayList<>();
+            for (Turno turnoAux : turnos) {
+                TurnosUsuario turnoDto = new TurnosUsuario();
+                turnoDto.setId(turnoAux.getId());
+                turnoDto.setNombreUsuario(turnoAux.getUsuario().getNombre());
+                turnoDto.setNombreServicio(turnoAux.getServicioPodo().getNombre());
+                turnoDto.setStartTime(turnoAux.getStartTime());
+                turnoDto.setEndTime(turnoAux.getEndTime());
+                turnoDto.setEstado(turnoAux.isEstado());
+                turnoDto.setCosto(turnoAux.getServicioPodo().getCosto());
+                turnosUsuarioList.add(turnoDto);
 
+            }
+            Page<TurnosUsuario> turnoDto = new PageImpl<>(turnosUsuarioList, pageable, turnos.getTotalElements());
+
+            return turnoDto;
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception for debugging
+            return Page.empty(pageable);
         }
-        Page<TurnosUsuario> turnoDto = new PageImpl<>(turnosUsuarioList, pageable,turnos.getSize() );
-
-        return turnoDto;
     }
-
 
     public void AltaBaja(String id) {
         Optional<Turno> turnoOptional = turnoRepository.findById(id);
@@ -143,18 +148,17 @@ public class TurnoServicio {
             turno.setEstado(false);
             turno.setServicioPodo(null);
             turno.setUsuario(null);
-            turno.setEstado(!turno.isEstado());
             turnoRepository.save(turno);
         }
     }
 
     public void generarTurnos(LocalDate startDate, LocalDate endDate) {
         List<LocalTime[]> horarios = new ArrayList<>();
-        horarios.add(new LocalTime[]{LocalTime.of(9, 0), LocalTime.of(10, 0)});
-        horarios.add(new LocalTime[]{LocalTime.of(10, 30), LocalTime.of(11, 30)});
-        horarios.add(new LocalTime[]{LocalTime.of(14, 0), LocalTime.of(15, 0)});
-        horarios.add(new LocalTime[]{LocalTime.of(15, 30), LocalTime.of(16, 30)});
-        horarios.add(new LocalTime[]{LocalTime.of(16, 30), LocalTime.of(17, 30)});
+        horarios.add(new LocalTime[] { LocalTime.of(9, 0), LocalTime.of(10, 0) });
+        horarios.add(new LocalTime[] { LocalTime.of(10, 30), LocalTime.of(11, 30) });
+        horarios.add(new LocalTime[] { LocalTime.of(14, 0), LocalTime.of(15, 0) });
+        horarios.add(new LocalTime[] { LocalTime.of(15, 30), LocalTime.of(16, 30) });
+        horarios.add(new LocalTime[] { LocalTime.of(16, 30), LocalTime.of(17, 30) });
 
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             if (esDiaLaboral(date)) {
@@ -162,7 +166,8 @@ public class TurnoServicio {
                 Optional<Dia> diaExistente = diaRepositorio.findByFecha(date);
 
                 if (diaExistente.isPresent()) {
-                    // Si ya existe un día con turnos para esta fecha, continuar con el siguiente día
+                    // Si ya existe un día con turnos para esta fecha, continuar con el siguiente
+                    // día
                     continue;
                 }
 
@@ -196,6 +201,5 @@ public class TurnoServicio {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
     }
-
 
 }
