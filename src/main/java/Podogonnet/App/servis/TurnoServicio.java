@@ -65,8 +65,7 @@ public class TurnoServicio {
             turno.setEstado(!turno.isEstado());
             turno.setUsuario(usuario);
             turnoRepository.save(turno);
-
-            return turno;
+                       return turno;
         } catch (Exception e) {
             throw new RuntimeException("Error al reservar el turno: " + e.getMessage(), e);
         }

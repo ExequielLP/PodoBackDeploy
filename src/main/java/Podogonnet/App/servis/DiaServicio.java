@@ -1,5 +1,6 @@
 package Podogonnet.App.servis;
 
+import Podogonnet.App.dto.TurnosUsuario;
 import Podogonnet.App.entity.Dia;
 import Podogonnet.App.entity.Turno;
 import Podogonnet.App.repository.DiaRepositorio;
@@ -19,7 +20,7 @@ public class DiaServicio {
     @Autowired
     private TurnoRepository turnoRepositorio;
 
-    public Dia turnosDelDia(LocalDate localDate) throws Exception {
+    public List<TurnosUsuario>turnosDelDia(LocalDate localDate) throws Exception {
         try {
             System.out.println("andetro de pubkuc dua turnosDeLdIA");
             // Utilizamos el método definido en el repositorio para obtener los turnos por fecha
@@ -28,8 +29,18 @@ public class DiaServicio {
             System.out.println("SALIENDO de pubkuc dua turnosDeLdIA");
             if (diaRespuesta.isPresent()) {
                 Dia dia = diaRespuesta.get();
+               TurnosUsuario turnosDTO=new TurnosUsuario();
+                List<TurnosUsuario> listaturnosDTO=new ArrayList<>();
+                for(Turno diaAUX: dia.getTurnos()){
+                    turnosDTO.setId(diaAUX.getId());
+                    turnosDTO.setStartTime(diaAUX.getStartTime());
+                    turnosDTO.setEndTime(diaAUX.getEndTime());
+                    listaturnosDTO.add(turnosDTO);
+                }
+                System.out.println("---------------------------------------");
+                System.out.println(listaturnosDTO);
                 // Devolvemos el objeto Dia obtenido del repositorio
-                return dia;
+                return listaturnosDTO;
             } else {
                 throw new RuntimeException("No se encontraron turnos para la fecha especificada.");
             }
