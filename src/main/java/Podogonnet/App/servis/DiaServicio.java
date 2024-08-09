@@ -20,19 +20,22 @@ public class DiaServicio {
     @Autowired
     private TurnoRepository turnoRepositorio;
 
-    public List<TurnosUsuario>turnosDelDia(LocalDate localDate) throws Exception {
+    public List<TurnosUsuario> turnosDelDia(LocalDate localDate) throws Exception {
         try {
             System.out.println("andetro de pubkuc dua turnosDeLdIA");
-            // Utilizamos el método definido en el repositorio para obtener los turnos por fecha
+            // Utilizamos el método definido en el repositorio para obtener los turnos por
+            // fecha
             Optional<Dia> diaRespuesta = diaRepositorio.findByFecha(localDate);
             System.out.println(diaRespuesta);
             System.out.println("SALIENDO de pubkuc dua turnosDeLdIA");
             if (diaRespuesta.isPresent()) {
                 Dia dia = diaRespuesta.get();
-
-                List<TurnosUsuario> listaturnosDTO=new ArrayList<>();
-                for(Turno diaAUX: dia.getTurnos()){
-                    TurnosUsuario turnosDTO=new TurnosUsuario();
+                System.out.println("*************************");
+                System.out.println(dia);
+                System.out.println("*************************");
+                List<TurnosUsuario> listaturnosDTO = new ArrayList<>();
+                for (Turno diaAUX : dia.getTurnos()) {
+                    TurnosUsuario turnosDTO = new TurnosUsuario();
                     turnosDTO.setId(diaAUX.getId());
                     turnosDTO.setStartTime(diaAUX.getStartTime());
                     turnosDTO.setEndTime(diaAUX.getEndTime());
@@ -51,7 +54,4 @@ public class DiaServicio {
         }
     }
 
-    }
-
-
-
+}
