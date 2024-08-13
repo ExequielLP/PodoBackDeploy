@@ -10,6 +10,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -19,13 +20,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
@@ -54,6 +58,7 @@ public class HttpSecurityConfig {
         private JwtAutheticateFilter jwtAutheticateFilter;
 
         @Bean
+        @Order(1)
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
                     .cors(Customizer.withDefaults())
@@ -85,12 +90,28 @@ public class HttpSecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/adminController/listaTurnos/{idTurno}/{idServicio}")
                                 .permitAll();
                         authRequestConfig.anyRequest().authenticated();
-                    })
-                    .oauth2Login(Customizer.withDefaults())
-                    .build();
+                    });
 
             return http.build();
         }
+        @Bean
+        @Order(2)
+        public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+            OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+            http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+                    .oidc(Customizer.withDefaults());
+            http
+                    .exceptionHandling((exceptionConfig)->{
+                        exceptionConfig.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
+                    });
+            http
+                    .oauth2ResourceServer(oauthResourceConfig->{oauthResourceConfig.jwt(Customizer.withDefaults());
+                    });
+
+
+            return http.build();
+        }
+
         @Bean
         public JWKSource<SecurityContext> jwkSource() {
             KeyPair keyPair = generateRsaKey();
@@ -103,22 +124,24 @@ public class HttpSecurityConfig {
             JWKSet jwkSet = new JWKSet(rsaKey);
             return new ImmutableJWKSet<>(jwkSet);
         }
+
         private static KeyPair generateRsaKey() {
             KeyPair keyPair;
             try {
                 KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
                 keyPairGenerator.initialize(2048);
                 keyPair = keyPairGenerator.generateKeyPair();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new IllegalStateException(ex);
             }
             return keyPair;
         }
+
         @Bean
         public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
             return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
         }
+
         @Bean
         public AuthorizationServerSettings authorizationServerSettings() {
             return AuthorizationServerSettings.builder()
