@@ -1,20 +1,24 @@
 package Podogonnet.App.servis;
 
+import Podogonnet.App.dto.TurnosUsuario;
+import Podogonnet.App.entity.Dia;
 import Podogonnet.App.entity.ServicioPodo;
 import Podogonnet.App.entity.Turno;
 import Podogonnet.App.entity.Usuario;
+import Podogonnet.App.repository.DiaRepositorio;
 import Podogonnet.App.repository.TurnoRepository;
 import Podogonnet.App.repository.UsuarioRepositorio;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.*;
-import java.util.List;
-import java.util.Optional;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TurnoServicio {
@@ -27,6 +31,9 @@ public class TurnoServicio {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+
+    @Autowired
+    private DiaRepositorio diaRepositorio;
 
     public List<Turno> turnosDelDia(LocalDate date) {
         // Inicio del día a las 9:00 AM
@@ -52,46 +59,39 @@ public class TurnoServicio {
                 throw new RuntimeException("El turno ya está ocupado, lo siento");
             }
 
-
             // Obtener el servicio podal y asignar los detalles al turno
             ServicioPodo servicioPodo = podoServicio.findById(idServicio);
             turno.setServicioPodo(servicioPodo);
             turno.setEstado(!turno.isEstado());
             turno.setUsuario(usuario);
             turnoRepository.save(turno);
-
-            return turno;
+                       return turno;
         } catch (Exception e) {
             throw new RuntimeException("Error al reservar el turno: " + e.getMessage(), e);
         }
     }
 
+    public List<TurnosUsuario> listaDeTurnosId(String id) {
 
-    // public void createDailyAppointmentsForAWeek() {
-    // // Verifica si no hay turnos creados
-    // if (turnoRepository.count() == 0) {
-    // LocalDate today = LocalDate.now();
-    // for (int day = 0; day < 7; day++) {
-    // LocalDate date = today.plusDays(day);
-    // LocalDateTime startOfDay = date.atTime(9, 0);
-    // for (int i = 0; i < 5; i++) { // Cambiado a 5 turnos
-    // LocalDateTime startTime = startOfDay.plusHours(i * 2);
-    // LocalDateTime endTime = startTime.plusHours(2);
-    // Turno turno = new Turno();
-    // turno.setStartTime(startTime);
-    // turno.setEndTime(endTime);
-    // turno.setEstado(false);
-    // turnoRepository.save(turno);
-    // }
-    // }
-    // }
-    // }
+        try {
+            Usuario usuario = usuarioRepositorio.findById(id).orElseThrow();
+            List<TurnosUsuario> ListDto = new ArrayList<>();
+            List<Turno> turnos = turnoRepository.findByUsuario(usuario);
+            for (Turno turDB : turnos) {
+                TurnosUsuario turnoDtp = new TurnosUsuario();
+                turnoDtp.setId(turDB.getId());
+                turnoDtp.setNombreServicio(turDB.getServicioPodo().getNombre());
+                turnoDtp.setCosto(turDB.getServicioPodo().getCosto());
+                turnoDtp.setStartTime(turDB.getStartTime());
+                turnoDtp.setEndTime(turDB.getEndTime());
+                turnoDtp.setEstado(turDB.isEstado());
+                ListDto.add(turnoDtp);
+            }
+            return ListDto;
+        } catch (Exception e) {
+            throw new RuntimeException("Error con traer los turnos del usuario" + e.getMessage());
+        }
 
-    public List<Turno> listaDeTurnosId(String id) {
-
-        Usuario usuario = usuarioRepositorio.findById(id).orElseThrow();
-
-        return turnoRepository.findByUsuario(usuario);
     }
 
     public Turno cancelarTurno(String id) {
@@ -100,6 +100,8 @@ public class TurnoServicio {
             if (turno.isPresent()) {
                 Turno turnoNew = turno.get();
                 turnoNew.setEstado(false);
+                turnoNew.setServicioPodo(null);
+                turnoNew.setUsuario(null);
                 turnoRepository.save(turnoNew);
                 return turnoNew;
             } else {
@@ -110,57 +112,93 @@ public class TurnoServicio {
         }
     }
 
-    public List<Turno> findAll() {
-        return turnoRepository.findAll();
+    public Page<TurnosUsuario> getTurnosAdmin(Pageable pageable) {
+        try {
+            Page<Turno> turnos = turnoRepository.findByEstadoTrue(pageable);
+            System.out.println("-------------------------");
+            System.out.println("Total Elements: " + turnos.getTotalElements());
+            System.out.println("-------------------------");
+            List<TurnosUsuario> turnosUsuarioList = new ArrayList<>();
+            for (Turno turnoAux : turnos) {
+                TurnosUsuario turnoDto = new TurnosUsuario();
+                turnoDto.setId(turnoAux.getId());
+                turnoDto.setNombreUsuario(turnoAux.getUsuario().getNombre());
+                turnoDto.setNombreServicio(turnoAux.getServicioPodo().getNombre());
+                turnoDto.setStartTime(turnoAux.getStartTime());
+                turnoDto.setEndTime(turnoAux.getEndTime());
+                turnoDto.setEstado(turnoAux.isEstado());
+                turnoDto.setCosto(turnoAux.getServicioPodo().getCosto());
+                turnosUsuarioList.add(turnoDto);
+
+            }
+            Page<TurnosUsuario> turnoDto = new PageImpl<>(turnosUsuarioList, pageable, turnos.getTotalElements());
+
+            return turnoDto;
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception for debugging
+            return Page.empty(pageable);
+        }
     }
 
     public void AltaBaja(String id) {
         Optional<Turno> turnoOptional = turnoRepository.findById(id);
         if (turnoOptional.isPresent()) {
             Turno turno = turnoOptional.get();
-            turno.setEstado(!turno.isEstado());
+            turno.setEstado(false);
+            turno.setServicioPodo(null);
+            turno.setUsuario(null);
             turnoRepository.save(turno);
         }
     }
 
-    private static final Set<LocalDate> FERIADOS = new HashSet<>(Arrays.asList(
-            LocalDate.of(2024, Month.JANUARY, 1),
-            LocalDate.of(2024, Month.JULY, 9)
-    // Añadir más feriados según corresponda
-    ));
+    public void generarTurnos(LocalDate startDate, LocalDate endDate) {
+        List<LocalTime[]> horarios = new ArrayList<>();
+        horarios.add(new LocalTime[] { LocalTime.of(9, 0), LocalTime.of(10, 0) });
+        horarios.add(new LocalTime[] { LocalTime.of(10, 30), LocalTime.of(11, 30) });
+        horarios.add(new LocalTime[] { LocalTime.of(14, 0), LocalTime.of(15, 0) });
+        horarios.add(new LocalTime[] { LocalTime.of(15, 30), LocalTime.of(16, 30) });
+        horarios.add(new LocalTime[] { LocalTime.of(16, 30), LocalTime.of(17, 30) });
 
-    public boolean esDiaLaboral(LocalDate date) {
-        return !FERIADOS.contains(date) &&
-                date.getDayOfWeek() != DayOfWeek.SATURDAY &&
-                date.getDayOfWeek() != DayOfWeek.SUNDAY;
-    }
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            if (esDiaLaboral(date)) {
+                // Verificar si ya existe un día con esta fecha
+                Optional<Dia> diaExistente = diaRepositorio.findByFecha(date);
 
-    public void generarTurnos(LocalDate inicio, LocalDate fin) {
-        while (inicio.isBefore(fin)) {
-            if (esDiaLaboral(inicio)) {
-                List<LocalTime> horarios = Arrays.asList(
-                        LocalTime.of(9, 0),
-                        LocalTime.of(10, 30),
-                        LocalTime.of(14, 0),
-                        LocalTime.of(15, 30),
-                        LocalTime.of(17, 30));
-
-                for (LocalTime hora : horarios) {
-                    LocalDateTime startTime = LocalDateTime.of(inicio, hora);
-                    LocalDateTime endTime = startTime.plusHours(1);
-
-                    // Verificar si el turno ya existe
-                    boolean exists = turnoRepository.existsByStartTimeAndEndTime(startTime, endTime);
-                    if (!exists) {
-                        Turno turno = new Turno();
-                        turno.setStartTime(startTime);
-                        turno.setEndTime(endTime);
-                        turno.setEstado(false); // Asumiendo que 'true' significa activo
-                        turnoRepository.save(turno);
-                    }
+                if (diaExistente.isPresent()) {
+                    // Si ya existe un día con turnos para esta fecha, continuar con el siguiente
+                    // día
+                    continue;
                 }
+
+                Dia dia = new Dia();
+                dia.setFecha(date);
+                dia.setFeriado(false); // Asume que el día no es festivo
+                dia.setCompleto(false);
+
+                List<Turno> turnosDelDia = new ArrayList<>();
+                for (LocalTime[] horario : horarios) {
+                    LocalDateTime startDateTime = LocalDateTime.of(date, horario[0]);
+                    LocalDateTime endDateTime = LocalDateTime.of(date, horario[1]);
+
+                    Turno turno = new Turno();
+                    turno.setDia(dia);
+                    turno.setStartTime(startDateTime);
+                    turno.setEndTime(endDateTime);
+                    turno.setEstado(false); // Asume que el turno está disponible
+                    turnosDelDia.add(turno);
+                }
+
+                // Asociar los turnos con el día
+                dia.setTurnos(turnosDelDia);
+                // Persistir el día, lo que también guarda los turnos debido al CascadeType.ALL
+                diaRepositorio.save(dia);
             }
-            inicio = inicio.plusDays(1);
         }
     }
+
+    private boolean esDiaLaboral(LocalDate date) {
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
+    }
+
 }

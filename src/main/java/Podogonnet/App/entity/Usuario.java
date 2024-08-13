@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Usuario implements UserDetails {
+public class Usuario extends Auditable implements UserDetails {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -27,29 +27,29 @@ public class Usuario implements UserDetails {
     private String userName;
     private String nombre;
     private String email;
-   private String password;
+    private String password;
     @Enumerated(EnumType.STRING)
     private Rol rol;
-    @OneToMany
+    @OneToMany(mappedBy = "usuario")
     private List<Turno> turno;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (rol == null) {
             return null;
-        } else if (rol.getPermissions()==null) {
+        } else if (rol.getPermissions() == null) {
             return null;
         }
 
-         List<GrantedAuthority>authorities=  rol.getPermissions().stream().map(
-                each->{ String permission= each.name();
-                return new SimpleGrantedAuthority(permission);
+        List<GrantedAuthority> authorities = rol.getPermissions().stream().map(
+                each -> {
+                    String permission = each.name();
+                    return new SimpleGrantedAuthority(permission);
                 }).collect(Collectors.toList());
-        authorities.add((new SimpleGrantedAuthority("ROLE_"+this.rol.name())));
+        authorities.add((new SimpleGrantedAuthority("ROLE_" + this.rol.name())));
         return authorities;
 
-
-   }
+    }
 
     @Override
     public String getPassword() {
@@ -60,7 +60,6 @@ public class Usuario implements UserDetails {
     public String getUsername() {
         return userName;
     }
-
 
     @Override
     public boolean isAccountNonExpired() {
