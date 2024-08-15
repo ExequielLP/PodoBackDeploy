@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +39,24 @@ public class UsuarioControlador {
         return ResponseEntity.ok(listaUsuarios);
     }
 
+   @GetMapping("/login")
+    public String login() {
+        return "ingreso al login autentificado";
+    }
+ /*
+    @PostMapping("/logout")
+    public String logoutOK(HttpSecurity http) throws Exception {
+        http.logout(logoutconfig->{
+            logoutconfig.logoutSuccessUrl("login?logout")
+                    .deleteCookies("JSESSIONID")
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true);
+
+        });
+        return "login?logout";
+    }*/
+
+
     @PostMapping("/register")
     public ResponseEntity<RegisterUser> register(@RequestBody SaveUser newUser) throws Exception {
         System.out.println("qqqqqqqqqqqqqqqqqqqqqqq");
@@ -51,11 +70,6 @@ public class UsuarioControlador {
         List<ServicioPodo> listaDeServicios = podoServicio.findAll();
         return ResponseEntity.ok(listaDeServicios);
     }
-
-
-
-
-
 
 
 }

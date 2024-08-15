@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +27,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -59,6 +61,45 @@ public class HttpSecurityConfig {
 
         @Bean
         @Order(1)
+        public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+            OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+            http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+                    .oidc(Customizer.withDefaults());
+
+            http
+                    .exceptionHandling((exceptionConfig) -> {
+                        exceptionConfig.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
+                    });
+            http
+                    .oauth2ResourceServer(oauthResourceConfig -> {
+                        oauthResourceConfig.jwt(Customizer.withDefaults());
+                    });
+
+
+            return http.build();
+        }
+
+        @Bean
+        @Order(2)
+        public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
+
+            http.authorizeHttpRequests(authConfig -> {
+
+                        authConfig.requestMatchers("/login").permitAll();
+
+                        authConfig.anyRequest().authenticated();
+                    })
+//                    .oauth2Login(Customizer.withDefaults())
+                    .formLogin(Customizer.withDefaults());
+
+
+
+            return http.build();
+        }
+
+
+        @Bean
+        @Order(3)
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
                     .cors(Customizer.withDefaults())
@@ -68,49 +109,36 @@ public class HttpSecurityConfig {
                     .authenticationProvider(daoAuthenticationProvider)
                     .addFilterAfter(jwtAutheticateFilter, UsernamePasswordAuthenticationFilter.class)
                     .authorizeHttpRequests(authRequestConfig -> {
-                        // Configuraciones de autorización para diferentes roles y endpoints
-                        authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/user").hasRole(Rol.ADMIN.name());
-                        authRequestConfig.requestMatchers(HttpMethod.POST, "/adminController/crearServicio").hasRole(Rol.ADMIN.name());
-                        authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaTurnoAdmin").hasRole(Rol.ADMIN.name());
-                        authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/AltaBaja/{id}").hasRole(Rol.ADMIN.name());
-                        authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaServiciosAdmin").hasRole(Rol.ADMIN.name());
-                        authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/AltaBajaServicio/{id}").hasRole(Rol.ADMIN.name());
-                        authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/ModificarServicio").hasRole(Rol.ADMIN.name());
+                                // Configuraciones de autorización para diferentes roles y endpoints
+                                authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/user").hasRole(Rol.ADMIN.name());
+                                authRequestConfig.requestMatchers(HttpMethod.POST, "/adminController/crearServicio").hasRole(Rol.ADMIN.name());
+                                authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaTurnoAdmin").hasRole(Rol.ADMIN.name());
+                                authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/AltaBaja/{id}").hasRole(Rol.ADMIN.name());
+                                authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaServiciosAdmin").hasRole(Rol.ADMIN.name());
+                                authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/AltaBajaServicio/{id}").hasRole(Rol.ADMIN.name());
+                                authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/ModificarServicio").hasRole(Rol.ADMIN.name());
 
-                        // Endpoints públicos
-                        authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll();
-                        authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/authenticate").permitAll();
-                        authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/auth/validate").permitAll();
-                        authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/servicios").permitAll();
-                        authRequestConfig.requestMatchers(HttpMethod.GET, "/portal/listaSerivicios").permitAll();
-                        authRequestConfig.requestMatchers(HttpMethod.GET, "/portal/servicioPodo/{id}").permitAll();
+                                // Endpoints públicos
+                                authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll();
+                                authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/authenticate").permitAll();
+                                authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/auth/validate").permitAll();
+                                authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/servicios").permitAll();
+                                authRequestConfig.requestMatchers(HttpMethod.GET, "/portal/listaSerivicios").permitAll();
+                                authRequestConfig.requestMatchers(HttpMethod.GET, "/portal/servicioPodo/{id}").permitAll();
 
-                        // Endpoint público para admin
-                        authRequestConfig
-                                .requestMatchers(HttpMethod.POST, "/adminController/listaTurnos/{idTurno}/{idServicio}")
-                                .permitAll();
-                        authRequestConfig.anyRequest().authenticated();
-                    });
+                                // Endpoint público para admin
+                                authRequestConfig
+                                        .requestMatchers(HttpMethod.POST, "/adminController/listaTurnos/{idTurno}/{idServicio}")
+                                        .permitAll();
 
-            return http.build();
-        }
-        @Bean
-        @Order(2)
-        public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-            OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-            http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                    .oidc(Customizer.withDefaults());
-            http
-                    .exceptionHandling((exceptionConfig)->{
-                        exceptionConfig.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
-                    });
-            http
-                    .oauth2ResourceServer(oauthResourceConfig->{oauthResourceConfig.jwt(Customizer.withDefaults());
-                    });
+
+                            }
+                    );
 
 
             return http.build();
         }
+
 
         @Bean
         public JWKSource<SecurityContext> jwkSource() {
@@ -145,7 +173,7 @@ public class HttpSecurityConfig {
         @Bean
         public AuthorizationServerSettings authorizationServerSettings() {
             return AuthorizationServerSettings.builder()
-                    .issuer("http://localhost:8080/authorization-server").build();
+                    .issuer("http://localhost:8080").build();
         }
 
         @Bean
