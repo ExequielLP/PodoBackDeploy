@@ -31,12 +31,14 @@ public class JwtAutheticateFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 /*agarro en header y busco las autorizaciones*/
+
         String authorizationHeaders=request.getHeader("Authorization");
         if (!StringUtils.hasText(authorizationHeaders) || !authorizationHeaders.startsWith("Bearer")){
             filterChain.doFilter(request,response);
             return;
 
         }
+
 
         /* agarro el jwt */
 
