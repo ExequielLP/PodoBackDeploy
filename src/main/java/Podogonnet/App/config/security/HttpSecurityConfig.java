@@ -41,7 +41,8 @@ public class HttpSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Configuración de OAuth2
         http.oauth2Login(oauth2Login -> oauth2Login
-                .successHandler(customOAuth2SuccessHandler));  // Manejador de éxito personalizado
+                .successHandler(customOAuth2SuccessHandler)
+                .defaultSuccessUrl("http://localhost:5173", true));  // Manejador de éxito personalizado
 
 
         // Configuración de JWT

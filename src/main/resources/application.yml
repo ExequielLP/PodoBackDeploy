@@ -7,7 +7,7 @@ spring:
             client-id: 683178027103-uepqin3teou8mup3gjv9qhrp983nsp53.apps.googleusercontent.com
             client-secret: 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
             scope: profile, email
-            redirect-uri: "http://localhost:5173"
+            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
         provider:
           google:
             authorization-uri: https://accounts.google.com/o/oauth2/auth
