@@ -66,9 +66,11 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
             if (usuario.isEmpty()) {
                 Usuario usuarioDB = new Usuario();
                 usuarioDB.setNombre((String) oauth2User.getAttributes().get("name"));
+                usuarioDB.setUserName((String) oauth2User.getAttributes().get("name"));
                 usuarioDB.setEmail((String) userInfo.get("email"));
                 usuarioDB.setPassword(null);
                 usuarioDB.setRol(Rol.USER);
+                usuarioRepositorio.save(usuarioDB);
             }
 
 
