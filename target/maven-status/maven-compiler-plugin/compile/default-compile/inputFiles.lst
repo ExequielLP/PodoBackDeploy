@@ -28,6 +28,7 @@ C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\
 C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\enums\RolPermission.java
 C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\repository\DiaRepositorio.java
 C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\config\security\HttpSecurityConfig.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\config\security\CustomOAuth2SuccessHandler.java
 C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\entity\ServicioPodo.java
 C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\PodoServicio.java
 C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\auth\AuthenticationResponse.java

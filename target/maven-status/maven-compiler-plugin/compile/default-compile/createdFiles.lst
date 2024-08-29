@@ -21,11 +21,11 @@ Podogonnet\App\servis\AdminService.class
 Podogonnet\App\config\security\HttpSecurityConfig.class
 Podogonnet\App\config\security\SecurityBeanInjector.class
 Podogonnet\App\servis\auth\AutheticateService.class
+Podogonnet\App\config\security\CustomOAuth2SuccessHandler.class
 Podogonnet\App\repository\ClientAppRepository.class
 Podogonnet\App\servis\auth\AuthenticationResponse.class
 Podogonnet\App\entity\ServicioPodo.class
 Podogonnet\App\servis\DiaServicio.class
-Podogonnet\App\config\security\HttpSecurityConfig$SecurityConfig.class
 Podogonnet\App\entity\Turno.class
 Podogonnet\App\entity\ClientApp.class
 Podogonnet\App\servis\auth\JwtService.class
