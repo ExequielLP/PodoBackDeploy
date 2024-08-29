@@ -19,7 +19,7 @@ build/
 *.iml
 *.ipr
 application-local.properties
-
+application.properties
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
