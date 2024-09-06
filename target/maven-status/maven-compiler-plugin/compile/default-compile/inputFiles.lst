@@ -18,6 +18,7 @@ F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podo
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Turno.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\auth\AuthenticationResponse.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\HttpSecurityConfig.java
+F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\auth\AutheticateGoogle.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\SecurityBeanInjector.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\TurnoServicio.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\PodoRepository.java

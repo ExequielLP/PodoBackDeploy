@@ -1,6 +1,9 @@
+/*
 package Podogonnet.App.config.security;
 
 import Podogonnet.App.entity.Usuario;
+
+
 import Podogonnet.App.enums.Rol;
 import Podogonnet.App.repository.UsuarioRepositorio;
 import Podogonnet.App.servis.auth.JwtService;
@@ -96,7 +99,7 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
             // Guarda el JWT en la sesión o lo devuelve en la respuesta
             response.setHeader("Authorization", "Bearer " + jwt);
-            String redirectUrl = "http://localhost:5173/login?token=" + jwt;
+            String redirectUrl = "http://localhost:5173/?token=" + jwt;
             response.sendRedirect(redirectUrl);
         } else {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed");
@@ -129,4 +132,4 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
             throw new IOException("Failed to get user info from Google: HTTP " + responseCode);
         }
     }
-}
+}*/

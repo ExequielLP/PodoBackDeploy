@@ -19,7 +19,6 @@ Podogonnet\App\servis\AdminService.class
 Podogonnet\App\config\security\HttpSecurityConfig.class
 Podogonnet\App\config\security\SecurityBeanInjector.class
 Podogonnet\App\servis\auth\AutheticateService.class
-Podogonnet\App\config\security\CustomOAuth2SuccessHandler.class
 Podogonnet\App\repository\ClientAppRepository.class
 Podogonnet\App\servis\auth\AuthenticationResponse.class
 Podogonnet\App\entity\ServicioPodo.class
@@ -34,6 +33,7 @@ Podogonnet\App\servis\TurnoServicio.class
 Podogonnet\App\controller\PortalControlador.class
 Podogonnet\App\servis\ImagenServicio.class
 Podogonnet\App\entity\Dia.class
+Podogonnet\App\servis\auth\AutheticateGoogle.class
 Podogonnet\App\repository\PodoRepository.class
 Podogonnet\App\dto\auth\AutheticationRequest.class
 Podogonnet\App\entity\Imagen.class
