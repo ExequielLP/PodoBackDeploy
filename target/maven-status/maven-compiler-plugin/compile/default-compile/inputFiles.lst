@@ -1,3 +1,4 @@
+F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\ClientApp.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\dto\SaveUser.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\TurnoRepository.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Imagen.java
@@ -17,12 +18,15 @@ F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podo
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Turno.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\auth\AuthenticationResponse.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\HttpSecurityConfig.java
+F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\auth\AutheticateGoogle.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\SecurityBeanInjector.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\TurnoServicio.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\PodoRepository.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Feriado.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\AppApplication.java
+F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\ClientAppRepository.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\DiaServicio.java
+F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\CustomOAuth2SuccessHandler.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\UsuarioControlador.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\dto\RegisterUser.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\AutheticationController.java

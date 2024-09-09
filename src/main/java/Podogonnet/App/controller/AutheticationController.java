@@ -3,7 +3,15 @@ package Podogonnet.App.controller;
 import Podogonnet.App.dto.auth.AutheticationRequest;
 import Podogonnet.App.entity.Usuario;
 import Podogonnet.App.servis.auth.AuthenticationResponse;
+import Podogonnet.App.servis.auth.AutheticateGoogle;
 import Podogonnet.App.servis.auth.AutheticateService;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import net.minidev.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -11,11 +19,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AutheticationController {
     @Autowired
     private AutheticateService autheticateService;
+
+    @Autowired
+    private AutheticateGoogle autheticateGoogle;
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> Authetication(@RequestBody AutheticationRequest authen) {
@@ -46,7 +62,21 @@ public class AutheticationController {
         Usuario user = autheticateService.findLogginInUser();
         return ResponseEntity.ok(user);
 
-
     }
 
+    @PostMapping("/google")
+    public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body) throws GeneralSecurityException, IOException {
+        String token = body.get("token");
+        try {
+       AuthenticationResponse authenticationResponse=autheticateGoogle.login(token);
+
+            return ResponseEntity.ok(authenticationResponse);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        }
+    }
 }
