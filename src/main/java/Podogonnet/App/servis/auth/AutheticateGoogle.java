@@ -41,13 +41,8 @@ public class AutheticateGoogle {
 
     public AuthenticationResponse login(String token) throws GeneralSecurityException, IOException {
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        // Decodificar el valor de Base64
-        byte[] decodedBytes = Base64.getDecoder().decode(CLIENT_ID);
-        String clientID = new String(decodedBytes);
-        System.out.println("EL CLIENTE ID EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEES");
-        System.out.println(clientID);
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-                .setAudience(Collections.singletonList(clientID))
+                .setAudience(Collections.singletonList(CLIENT_ID))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(token);
