@@ -74,6 +74,7 @@ public class AutheticationController {
             System.out.println(authenticationResponse);
             return ResponseEntity.ok(authenticationResponse);
         } catch (Exception e){
+            System.out.println("----------------------------------------------------------------------ERRORRR------------------------");
             System.out.println(e.getMessage());
 
 

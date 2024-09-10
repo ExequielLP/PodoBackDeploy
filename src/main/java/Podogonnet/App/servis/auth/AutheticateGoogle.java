@@ -7,9 +7,6 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -44,8 +41,13 @@ public class AutheticateGoogle {
 
     public AuthenticationResponse login(String token) throws GeneralSecurityException, IOException {
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+        // Decodificar el valor de Base64
+        byte[] decodedBytes = Base64.getDecoder().decode(CLIENT_ID);
+        String clientID = new String(decodedBytes);
+        System.out.println("EL CLIENTE ID EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEES");
+        System.out.println(clientID);
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-                .setAudience(Collections.singletonList(CLIENT_ID))
+                .setAudience(Collections.singletonList(clientID))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(token);
