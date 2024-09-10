@@ -69,7 +69,8 @@ public class AutheticationController {
         String token = body.get("token");
         try {
        AuthenticationResponse authenticationResponse=autheticateGoogle.login(token);
-
+            System.out.println("----------------------------------------------------------------------------------------------");
+            System.out.println(authenticationResponse);
             return ResponseEntity.ok(authenticationResponse);
         } catch (Exception e){
             System.out.println(e.getMessage());
