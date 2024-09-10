@@ -68,6 +68,7 @@ public class AutheticationController {
     public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body) throws GeneralSecurityException, IOException {
         String token = body.get("token");
         try {
+            System.out.println("----------------------------------------------------------------------------------------------");
        AuthenticationResponse authenticationResponse=autheticateGoogle.login(token);
             System.out.println("----------------------------------------------------------------------------------------------");
             System.out.println(authenticationResponse);
