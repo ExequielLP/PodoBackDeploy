@@ -5,7 +5,9 @@ import Podogonnet.App.dto.SaveUser;
 import Podogonnet.App.dto.auth.AutheticationRequest;
 import Podogonnet.App.entity.Usuario;
 import Podogonnet.App.servis.UsuarioServicio;
+import Podogonnet.App.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,8 @@ public class AutheticateService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+
 
     @Autowired
     private UsuarioServicio usuarioServicio;
@@ -67,6 +71,7 @@ public class AutheticateService {
         authenticationResponse.setUserName(((Usuario) user).getNombre());
         authenticationResponse.setRol(((Usuario) user).getRol().toString());
         authenticationResponse.setId(((Usuario) user).getId());
+
 
 
 
