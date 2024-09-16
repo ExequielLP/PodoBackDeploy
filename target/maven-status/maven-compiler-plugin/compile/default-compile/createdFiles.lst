@@ -32,6 +32,7 @@ Podogonnet\App\dto\TurnosUsuario.class
 Podogonnet\App\servis\TurnoServicio.class
 Podogonnet\App\controller\PortalControlador.class
 Podogonnet\App\servis\ImagenServicio.class
+Podogonnet\App\util\CookieUtil.class
 Podogonnet\App\entity\Dia.class
 Podogonnet\App\servis\auth\AutheticateGoogle.class
 Podogonnet\App\repository\PodoRepository.class
