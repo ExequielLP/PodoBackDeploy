@@ -6,14 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CookieUtil {
-    public static void createCookie( HttpServletResponse httpResponse, String name, String value, String domein, Boolean secure, Integer MaxAge) {
-        String environment = System.getenv("ENTORNO");
-        boolean isProduction = "production".equalsIgnoreCase(environment);
+    public static void createCookie( HttpServletResponse httpResponse, String name, String value, String domein, Integer MaxAge) {
+//        String environment = System.getenv("ENTORNO");
+//        boolean isProduction = "production".equalsIgnoreCase(environment);
 
         Cookie cookie = new Cookie(name, value);
-        if (isProduction) {
-            cookie.setSecure(true);
-        }
+//        if (isProduction) {
+//
+//        }
+        cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setDomain(domein);
         cookie.setMaxAge(MaxAge);
