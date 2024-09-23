@@ -20,6 +20,8 @@ public class CookieUtil {
         cookie.setMaxAge(MaxAge);
         cookie.setPath("/");
         httpResponse.addCookie(cookie);
+        System.out.println("en cookie util");
+        System.out.println(cookie);
     }
     public static void clearCookie(HttpServletResponse httpServletResponse,String name){
         Cookie cookie=new Cookie(name,null);
