@@ -66,7 +66,7 @@ public class AutheticationController {
 
             AuthenticationResponse authenticationResponse = autheticateGoogle.login(token);
             CookieUtil.createCookie(httpServletResponse, cookieName, authenticationResponse.getJwt(), "localhost",
-                    false, 8000);
+                    8000);
             return ResponseEntity.ok(authenticationResponse);
         } catch (Exception e) {
             System.out.println(
