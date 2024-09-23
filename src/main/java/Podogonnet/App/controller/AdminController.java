@@ -2,7 +2,6 @@ package Podogonnet.App.controller;
 
 import Podogonnet.App.dto.TurnosUsuario;
 import Podogonnet.App.entity.ServicioPodo;
-import Podogonnet.App.entity.Turno;
 import Podogonnet.App.servis.ImagenServicio;
 import Podogonnet.App.servis.PodoServicio;
 import Podogonnet.App.servis.TurnoServicio;

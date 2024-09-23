@@ -2,10 +2,8 @@ package Podogonnet.App.enums;
 
 
 import lombok.*;
-
 import java.util.Arrays;
 import java.util.List;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

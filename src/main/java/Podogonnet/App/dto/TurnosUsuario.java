@@ -1,6 +1,5 @@
 package Podogonnet.App.dto;
 
-import Podogonnet.App.entity.Turno;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

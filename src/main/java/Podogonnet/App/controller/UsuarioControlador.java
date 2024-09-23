@@ -4,7 +4,6 @@ package Podogonnet.App.controller;
 import Podogonnet.App.dto.RegisterUser;
 import Podogonnet.App.dto.SaveUser;
 import Podogonnet.App.entity.ServicioPodo;
-import Podogonnet.App.entity.Turno;
 import Podogonnet.App.entity.Usuario;
 import Podogonnet.App.servis.PodoServicio;
 import Podogonnet.App.servis.UsuarioServicio;
@@ -15,9 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
@@ -43,18 +40,6 @@ public class UsuarioControlador {
     public String login() {
         return "ingreso al login autentificado";
     }
- /*
-    @PostMapping("/logout")
-    public String logoutOK(HttpSecurity http) throws Exception {
-        http.logout(logoutconfig->{
-            logoutconfig.logoutSuccessUrl("login?logout")
-                    .deleteCookies("JSESSIONID")
-                    .clearAuthentication(true)
-                    .invalidateHttpSession(true);
-
-        });
-        return "login?logout";
-    }*/
 
 
     @PostMapping("/register")

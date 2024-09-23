@@ -1,7 +1,6 @@
 package Podogonnet.App.controller;
 
 import Podogonnet.App.dto.TurnosUsuario;
-import Podogonnet.App.entity.Dia;
 import Podogonnet.App.entity.Turno;
 import Podogonnet.App.servis.DiaServicio;
 import Podogonnet.App.servis.TurnoServicio;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -27,12 +25,6 @@ public class TurnoControlador {
     @Autowired
     private DiaServicio diaServicio;
 
-    //creo turnos para 1 semana
-//    @PostConstruct
-//    public void createDailyAppointmentsAtStartup() {
-//
-//        turnoServicio.createDailyAppointmentsForAWeek();
-//    }
     @PostConstruct
     public String generarTurnos() {
         LocalDate inicio = LocalDate.now();

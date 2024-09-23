@@ -6,13 +6,13 @@ import Podogonnet.App.servis.auth.AuthenticationResponse;
 import Podogonnet.App.servis.auth.AutheticateGoogle;
 import Podogonnet.App.servis.auth.AutheticateService;
 import Podogonnet.App.util.CookieUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Map;
@@ -40,15 +40,14 @@ public class AutheticationController {
     }
 
     @GetMapping("validate")
-    public boolean validate(@RequestParam String jwt) {
-        boolean isValidate = autheticateService.validateToken(jwt);
+    public boolean validate(HttpServletRequest httpServletRequest)  {
+        boolean isValidate = autheticateService.validateToken(httpServletRequest);
         return isValidate;
-
     }
 
     @GetMapping("/validateGetProfile")
-    public ResponseEntity<AuthenticationResponse> validateGetProfile(@RequestParam String jwt) {
-        AuthenticationResponse userIsValid = autheticateService.validateGetProfile(jwt);
+    public ResponseEntity<AuthenticationResponse> validateGetProfile(HttpServletRequest httpServletRequest) {
+        AuthenticationResponse userIsValid = autheticateService.validateGetProfile(httpServletRequest);
         return ResponseEntity.ok(userIsValid);
 
     }
@@ -83,7 +82,7 @@ public class AutheticationController {
     @PostMapping("/logout")
     public ResponseEntity<?> logoutAndRemoveCookie(HttpServletResponse httpServletResponse) {
         CookieUtil.clearCookie(httpServletResponse, cookieName);
-        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+        return ResponseEntity.ok("Logout successful and cookie removed");
     }
 
 }
