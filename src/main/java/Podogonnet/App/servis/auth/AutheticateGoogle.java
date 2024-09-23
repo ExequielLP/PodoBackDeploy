@@ -100,14 +100,5 @@ public class AutheticateGoogle {
             return null;
         }
 
-//            // Crear JWT
-//            String jwt = Jwts.builder()
-//                    .setSubject(payload.getSubject())
-//                    .claim("email", payload.getEmail())
-//                    .signWith(SignatureAlgorithm.HS256, "aG9sYW11bmRvZXN0YWVzbGFjb250cmHDsWFzZcOxYWJhc2U2NA==")
-//                    .compact();
-//            System.out.println("**************************************************");
-//            System.out.println(jwt);
-
     }
 }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
 
 import java.util.HashMap;
+import java.util.IllegalFormatCodePointException;
 import java.util.Map;
 
 @Service
@@ -61,7 +62,7 @@ public class AutheticateService {
 
     }
 
-    public AuthenticationResponse login(AutheticationRequest authen) {
+    public AuthenticationResponse login(AutheticationRequest authen,HttpServletResponse httpServletResponse) {
         Authentication authentication = new UsernamePasswordAuthenticationToken(authen.getUserName(), authen.getPassword());
 
 
@@ -76,6 +77,16 @@ public class AutheticateService {
         authenticationResponse.setUserName(((Usuario) user).getNombre());
         authenticationResponse.setRol(((Usuario) user).getRol().toString());
         authenticationResponse.setId(((Usuario) user).getId());
+
+        String environment = System.getenv("ENTORNO");
+        String domein="";
+        if ("localDBlocal".equalsIgnoreCase(environment)){
+            domein="localhost";
+
+        }else domein="podogonnet.netlify.app";
+
+        CookieUtil.createCookie(httpServletResponse, cookieName, jwt, domein, false, 8000);
+
 
 
         return authenticationResponse;
