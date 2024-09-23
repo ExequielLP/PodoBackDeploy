@@ -83,7 +83,7 @@ public class AutheticateService {
         if ("localDBlocal".equalsIgnoreCase(environment)){
             domein="localhost";
             System.out.println(domein);
-        }else {domein="https://podogonnet.netlify.app";
+        }else {domein="podogonnet.netlify.app";
             System.out.println(domein);
         }
 
