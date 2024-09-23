@@ -34,8 +34,8 @@ public class AutheticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> Authetication(@RequestBody AutheticationRequest authen,
             HttpServletResponse httpServletResponse) {
-        AuthenticationResponse auth = autheticateService.login(authen);
-        CookieUtil.createCookie(httpServletResponse, cookieName, auth.getJwt(), "localhost", false, 8000);
+        AuthenticationResponse auth = autheticateService.login(authen,httpServletResponse);
+
         return ResponseEntity.ok(auth);
     }
 

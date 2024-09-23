@@ -23,7 +23,7 @@ public class CookieUtil {
     public static void clearCookie(HttpServletResponse httpServletResponse,String name){
         Cookie cookie=new Cookie(name,null);
         cookie.setPath("/");
-        cookie.setDomain("localhost");
+        cookie.setDomain("");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(1);
         httpServletResponse.addCookie(cookie);
