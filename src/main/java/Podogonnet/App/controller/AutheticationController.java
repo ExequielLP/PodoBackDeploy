@@ -35,7 +35,6 @@ public class AutheticationController {
     public ResponseEntity<AuthenticationResponse> Authetication(@RequestBody AutheticationRequest authen,
             HttpServletResponse httpServletResponse) {
         AuthenticationResponse auth = autheticateService.login(authen,httpServletResponse);
-
         return ResponseEntity.ok(auth);
     }
 
