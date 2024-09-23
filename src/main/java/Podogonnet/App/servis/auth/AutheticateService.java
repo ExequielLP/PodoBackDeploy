@@ -82,8 +82,10 @@ public class AutheticateService {
         String domein="";
         if ("localDBlocal".equalsIgnoreCase(environment)){
             domein="localhost";
-
-        }else domein="podogonnet.netlify.app";
+            System.out.println(domein);
+        }else {domein="podogonnet.netlify.app";
+            System.out.println(domein);
+        }
 
         CookieUtil.createCookie(httpServletResponse, cookieName, jwt, domein, false, 8000);
 
