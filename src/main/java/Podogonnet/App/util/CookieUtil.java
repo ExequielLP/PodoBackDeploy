@@ -14,7 +14,7 @@ public class CookieUtil {
 //        if (isProduction) {
 //
 //        }
-        cookie.setSecure(false);
+        cookie.setSecure(true);
         cookie.setHttpOnly(false);
         cookie.setDomain(domein);
         cookie.setMaxAge(MaxAge);
