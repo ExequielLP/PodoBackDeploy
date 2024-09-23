@@ -5,24 +5,19 @@ import Podogonnet.App.entity.Usuario;
 import Podogonnet.App.servis.auth.AuthenticationResponse;
 import Podogonnet.App.servis.auth.AutheticateGoogle;
 import Podogonnet.App.servis.auth.AutheticateService;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import net.minidev.json.JSONUtil;
+import Podogonnet.App.util.CookieUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
 import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -30,30 +25,30 @@ public class AutheticationController {
     @Autowired
     private AutheticateService autheticateService;
 
+    @Value("${jwt.accessTokenCookieName}")
+    private String cookieName;
+
     @Autowired
     private AutheticateGoogle autheticateGoogle;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> Authetication(@RequestBody AutheticationRequest authen) {
+    public ResponseEntity<AuthenticationResponse> Authetication(@RequestBody AutheticationRequest authen,
+            HttpServletResponse httpServletResponse) {
         AuthenticationResponse auth = autheticateService.login(authen);
-
+        CookieUtil.createCookie(httpServletResponse, cookieName, auth.getJwt(), "localhost", false, 8000);
         return ResponseEntity.ok(auth);
     }
 
     @GetMapping("validate")
-    public boolean validate(@RequestParam String jwt) {
-
-        boolean isValidate = autheticateService.validateToken(jwt);
+    public boolean validate(HttpServletRequest httpServletRequest)  {
+        boolean isValidate = autheticateService.validateToken(httpServletRequest);
         return isValidate;
-
-
     }
 
     @GetMapping("/validateGetProfile")
-    public ResponseEntity<AuthenticationResponse> validateGetProfile(@RequestParam String jwt) {
-        AuthenticationResponse isValidate = autheticateService.validateGetProfile(jwt);
-        return ResponseEntity.ok(isValidate);
-
+    public ResponseEntity<AuthenticationResponse> validateGetProfile(HttpServletRequest httpServletRequest) {
+        AuthenticationResponse userIsValid = autheticateService.validateGetProfile(httpServletRequest);
+        return ResponseEntity.ok(userIsValid);
 
     }
 
@@ -65,21 +60,29 @@ public class AutheticationController {
     }
 
     @PostMapping("/google")
-    public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body) throws GeneralSecurityException, IOException {
+    public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body, HttpServletResponse httpServletResponse)
+            throws GeneralSecurityException, IOException {
         String token = body.get("token");
         try {
-            System.out.println("----------------------------------------------------------------------------------------------");
-       AuthenticationResponse authenticationResponse=autheticateGoogle.login(token);
-            System.out.println("----------------------------------------------------------------------------------------------");
-            System.out.println(authenticationResponse);
-            return ResponseEntity.ok(authenticationResponse);
-        } catch (Exception e){
-            System.out.println("----------------------------------------------------------------------ERRORRR------------------------");
-            System.out.println(e.getMessage());
 
+            AuthenticationResponse authenticationResponse = autheticateGoogle.login(token);
+            CookieUtil.createCookie(httpServletResponse, cookieName, authenticationResponse.getJwt(), "localhost",
+                    false, 8000);
+            return ResponseEntity.ok(authenticationResponse);
+        } catch (Exception e) {
+            System.out.println(
+                    "----------------------------------------------------------------------ERRORRR------------------------");
+            System.out.println(e.getMessage());
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         }
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutAndRemoveCookie(HttpServletResponse httpServletResponse) {
+        CookieUtil.clearCookie(httpServletResponse, cookieName);
+        return ResponseEntity.ok("Logout successful and cookie removed");
+    }
+
 }

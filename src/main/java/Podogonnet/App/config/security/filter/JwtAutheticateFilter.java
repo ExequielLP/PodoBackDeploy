@@ -5,17 +5,17 @@ import Podogonnet.App.servis.UsuarioServicio;
 import Podogonnet.App.servis.auth.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.WebUtils;
 
 import java.io.IOException;
 
@@ -28,30 +28,27 @@ public class JwtAutheticateFilter extends OncePerRequestFilter {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
+    @Value("${jwt.accessTokenCookieName}")
+    private String cookieName;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-/*agarro en header y busco las autorizaciones*/
+        /*agarro en header y busco las autorizaciones*/
 
-        String authorizationHeaders=request.getHeader("Authorization");
-        if (!StringUtils.hasText(authorizationHeaders) || !authorizationHeaders.startsWith("Bearer")){
-            filterChain.doFilter(request,response);
+
+        String jwt = getToken(request);
+        if (jwt == null || jwt.isEmpty()) {
+            filterChain.doFilter(request, response);
             return;
-
         }
-
-
-        /* agarro el jwt */
-
-        String jwt=authorizationHeaders.split(" ")[1];
-
         /* extraer el subjet/username  usando el jwtService*/
-        String userName=jwtService.extracUsername(jwt);
+        String userName = jwtService.extracUsername(jwt);
 
         /* setear objete autentificado dentro de ContextHolder*/
-        Usuario user=usuarioServicio.findOneByUsername(userName);
+        Usuario user = usuarioServicio.findOneByUsername(userName);
         /* creo el token de authetificacion para el securyt context holder*/
 
-        UsernamePasswordAuthenticationToken autheToken=new UsernamePasswordAuthenticationToken(userName,null,user.getAuthorities());
+        UsernamePasswordAuthenticationToken autheToken = new UsernamePasswordAuthenticationToken(userName, null, user.getAuthorities());
 
         /*agrego detalles para sumar info a la authentificaicon*/
 
@@ -61,13 +58,12 @@ public class JwtAutheticateFilter extends OncePerRequestFilter {
 
         SecurityContextHolder.getContext().setAuthentication(autheToken);
 
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
 
+    }
 
-
-
-
-
-
+    public String getToken(HttpServletRequest httpServletRequest) {
+        Cookie cookie = WebUtils.getCookie(httpServletRequest, cookieName);
+        return cookie != null ? cookie.getValue() : null;
     }
 }

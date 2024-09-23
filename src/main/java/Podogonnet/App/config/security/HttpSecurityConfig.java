@@ -2,38 +2,21 @@ package Podogonnet.App.config.security;
 
 import Podogonnet.App.config.security.filter.JwtAutheticateFilter;
 import Podogonnet.App.enums.Rol;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
-import java.util.UUID;
-
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
-
-
 @Configuration
 @EnableWebSecurity
 public class HttpSecurityConfig {
@@ -44,15 +27,9 @@ public class HttpSecurityConfig {
     @Autowired
     private JwtAutheticateFilter jwtAutheticateFilter;
 
-//    @Autowired
-//    private CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Configuración de OAuth2
-       // http.oauth2Login(Customizer.withDefaults());
-
         // Configuración de JWT
         http
                 .cors(Customizer.withDefaults())
@@ -93,8 +70,5 @@ public class HttpSecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
-
 
 }

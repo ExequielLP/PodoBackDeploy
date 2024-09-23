@@ -1,21 +1,15 @@
 package Podogonnet.App.servis;
 
 import Podogonnet.App.dto.SaveUser;
-import Podogonnet.App.entity.ServicioPodo;
-import Podogonnet.App.entity.Turno;
+
 import Podogonnet.App.entity.Usuario;
 import Podogonnet.App.enums.Rol;
 import Podogonnet.App.repository.UsuarioRepositorio;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 @Service
 public class UsuarioServicio {
     @Autowired

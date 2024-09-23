@@ -1,9 +1,7 @@
 package Podogonnet.App.controller;
 
 import Podogonnet.App.entity.ServicioPodo;
-import Podogonnet.App.entity.Usuario;
 import Podogonnet.App.servis.PodoServicio;
-import Podogonnet.App.servis.UsuarioServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

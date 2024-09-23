@@ -2,9 +2,7 @@ package Podogonnet.App.servis;
 
 import Podogonnet.App.entity.Imagen;
 import Podogonnet.App.entity.ServicioPodo;
-import Podogonnet.App.repository.ImagenRepo;
 import Podogonnet.App.repository.PodoRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
