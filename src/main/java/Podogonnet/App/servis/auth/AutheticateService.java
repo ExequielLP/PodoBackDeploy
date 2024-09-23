@@ -87,7 +87,7 @@ public class AutheticateService {
             System.out.println(domein);
         }
 
-        CookieUtil.createCookie(httpServletResponse, cookieName, jwt, domein, false, 8000);
+        CookieUtil.createCookie(httpServletResponse, cookieName, jwt, domein, true, 8000);
 
 
 
