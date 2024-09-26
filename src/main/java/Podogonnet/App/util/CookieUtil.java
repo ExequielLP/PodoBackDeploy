@@ -31,9 +31,9 @@ public class CookieUtil {
     public static void clearCookie(HttpServletResponse httpServletResponse,String name){
         Cookie cookie=new Cookie(name,null);
         cookie.setPath("/");
-        cookie.setDomain("");
+        cookie.setDomain("podobackdeploy.onrender.com");
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(1);
+        cookie.setMaxAge(0);
         httpServletResponse.addCookie(cookie);
     }
 }
