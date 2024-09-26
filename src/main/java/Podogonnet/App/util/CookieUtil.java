@@ -10,32 +10,23 @@ import java.time.Duration;
 @Component
 public class CookieUtil {
     public static void createCookie( HttpServletResponse httpResponse, String name, String value, String domein, Integer MaxAge) {
-//        String environment = System.getenv("ENTORNO");
-//        boolean isProduction = "production".equalsIgnoreCase(environment);
-
-//        Cookie cookie = new Cookie(name, value);
-//        if (isProduction) {
-//
-//        }
-
-        ResponseCookie cookie = ResponseCookie.from(name, value)
-                .domain(domein)
-                .path("/")
-                .maxAge(MaxAge)  // Establece el tiempo de expiración en segundos
-                .secure(true)    // Configura la cookie como segura
-                .httpOnly(true)  // Solo accesible mediante HTTP (no JavaScript)
-                .sameSite("None") // Define la política de SameSite
-                .build();
-
+//        ResponseCookie cookie = ResponseCookie.from(name, value)
+//                .domain(domein)
+//                .path("/")
+//                .maxAge(MaxAge)  // Establece el tiempo de expiración en segundos
+//                .secure(true)    // Configura la cookie como segura
+//                .httpOnly(true)  // Solo accesible mediante HTTP (no JavaScript)
+//                .sameSite("None") // Define la política de SameSite
+//                .build();
+//        httpResponse.addHeader("Set-Cookie", cookie.toString());
         // Añade la cookie a la respuesta como un encabezado
-        httpResponse.addHeader("Set-Cookie", cookie.toString());
-//        cookie.setSecure(true);
-//        cookie.setHttpOnly(true);
-//        cookie.setDomain(domein);
-//        cookie.setMaxAge(MaxAge);
-//        cookie.setPath("/");
-        System.out.println("en cookie util");
-        System.out.println(cookie);
+        Cookie cookie = new Cookie(name, value);
+       cookie.setSecure(true);
+       cookie.setHttpOnly(true);
+       cookie.setDomain(domein);
+       cookie.setMaxAge(MaxAge);
+       cookie.setPath("/");
+       httpResponse.addCookie(cookie);
     }
     public static void clearCookie(HttpServletResponse httpServletResponse,String name){
         Cookie cookie=new Cookie(name,null);
