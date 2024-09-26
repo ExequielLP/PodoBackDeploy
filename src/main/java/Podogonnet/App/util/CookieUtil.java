@@ -19,6 +19,7 @@ public class CookieUtil {
 //        }
 
         ResponseCookie cookie = ResponseCookie.from(name, value)
+                .domain(domein)
                 .path("/")
                 .maxAge(MaxAge)  // Establece el tiempo de expiración en segundos
                 .secure(true)    // Configura la cookie como segura
