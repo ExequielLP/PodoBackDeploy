@@ -22,7 +22,7 @@ public class CookieUtil {
                 .domain(domein)
                 .path("/")
                 .maxAge(MaxAge)  // Establece el tiempo de expiración en segundos
-                .secure(true)    // Configura la cookie como segura
+                .secure(false)    // Configura la cookie como segura
                 .httpOnly(true)  // Solo accesible mediante HTTP (no JavaScript)
                 .sameSite("None") // Define la política de SameSite
                 .build();
