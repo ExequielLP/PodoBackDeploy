@@ -3,10 +3,12 @@ package Podogonnet.App.servis.auth;
 import Podogonnet.App.entity.Usuario;
 import Podogonnet.App.enums.Rol;
 import Podogonnet.App.repository.UsuarioRepositorio;
+import Podogonnet.App.util.CookieUtil;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -39,7 +41,11 @@ public class AutheticateGoogle {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse login(String token) throws GeneralSecurityException, IOException {
+
+    @Value("${jwt.accessTokenCookieName}")
+    private String cookieName;
+
+    public AuthenticationResponse login(String token, HttpServletResponse httpServletResponse) throws GeneralSecurityException, IOException {
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
                 .setAudience(Collections.singletonList(CLIENT_ID))
@@ -93,6 +99,18 @@ public class AutheticateGoogle {
             authenticationResponse.setRol(String.valueOf(usuarioDB.getRol()));
             String jwt = jwtService.generateToken(fakeUserDetails, extraClaims);
             authenticationResponse.setJwt(jwt);
+
+            String environment = System.getenv("ENTORNO");
+            String domein="";
+            if ("localDBlocal".equalsIgnoreCase(environment)){
+                domein="localhost";
+                System.out.println(domein);
+            }else {domein="podobackdeploy.onrender.com";
+                System.out.println(domein);
+            }
+
+            CookieUtil.createCookie(httpServletResponse, cookieName, jwt, domein, 8000);
+
 
             return authenticationResponse;
 
