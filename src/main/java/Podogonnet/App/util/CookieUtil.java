@@ -33,7 +33,7 @@ public class CookieUtil {
         cookie.setPath("/");
         cookie.setDomain("podobackdeploy.onrender.com");
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(0);
+        cookie.setMaxAge(1);
         httpServletResponse.addCookie(cookie);
     }
 }
