@@ -29,11 +29,20 @@ public class CookieUtil {
 //       httpResponse.addCookie(cookie);
     }
     public static void clearCookie(HttpServletResponse httpServletResponse,String name){
-        Cookie cookie=new Cookie(name,null);
-        cookie.setPath("/");
-        cookie.setDomain("podobackdeploy.onrender.com");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(1);
-        httpServletResponse.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from(name, null)
+                .domain("podobackdeploy.onrender.com")
+                .path("/")
+                .maxAge(0)  // Establece el tiempo de expiración en segundos
+                .secure(true)    // Configura la cookie como segura
+                .httpOnly(true)  // Solo accesible mediante HTTP (no JavaScript)
+                .sameSite("None") // Define la política de SameSite
+                .build();
+        httpServletResponse.addHeader("Set-Cookie", cookie.toString());
+//        Cookie cookie=new Cookie(name,null);
+//        cookie.setPath("/");
+//        cookie.setDomain("podobackdeploy.onrender.com");
+//        cookie.setHttpOnly(true);
+//        cookie.setMaxAge(0);
+//        httpServletResponse.addCookie(cookie);
     }
 }
