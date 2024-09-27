@@ -1,43 +1,43 @@
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\ClientApp.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\dto\SaveUser.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\TurnoRepository.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Imagen.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\ImagenServicio.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\util\CookieUtil.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\dto\auth\AutheticationRequest.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Dia.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\auth\JwtService.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\dto\TurnosUsuario.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\AdminController.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Auditable.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\ServicioPodo.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\PodoServicio.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\UsuarioServicio.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\ImagenRepo.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\enums\RolPermission.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\AdminService.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Turno.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\auth\AuthenticationResponse.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\HttpSecurityConfig.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\auth\AutheticateGoogle.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\SecurityBeanInjector.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\TurnoServicio.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\PodoRepository.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Feriado.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\AppApplication.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\ClientAppRepository.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\DiaServicio.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\CustomOAuth2SuccessHandler.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\UsuarioControlador.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\dto\RegisterUser.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\AutheticationController.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\TurnoControlador.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\PersistensConfig.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\DiaRepositorio.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\auth\AutheticateService.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\UsuarioRepositorio.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\auditor\AuditorAwareImp.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\filter\JwtAutheticateFilter.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Usuario.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\enums\Rol.java
-F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\PortalControlador.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\TurnoServicio.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\repository\ImagenRepo.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\dto\SaveUser.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\enums\Rol.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\entity\Usuario.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\controller\TurnoControlador.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\AdminService.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\repository\PodoRepository.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\repository\ClientAppRepository.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\UsuarioServicio.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\controller\PortalControlador.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\dto\auth\AutheticationRequest.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\auth\JwtService.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\dto\TurnosUsuario.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\repository\TurnoRepository.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\entity\Auditable.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\entity\Dia.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\entity\Feriado.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\AppApplication.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\config\security\PersistensConfig.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\repository\UsuarioRepositorio.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\controller\AdminController.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\auditor\AuditorAwareImp.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\entity\ClientApp.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\entity\Imagen.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\enums\RolPermission.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\repository\DiaRepositorio.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\config\security\HttpSecurityConfig.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\config\security\CustomOAuth2SuccessHandler.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\entity\ServicioPodo.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\PodoServicio.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\auth\AuthenticationResponse.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\controller\UsuarioControlador.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\config\security\filter\JwtAutheticateFilter.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\auth\AutheticateService.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\dto\RegisterUser.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\controller\AutheticationController.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\entity\Turno.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\config\security\SecurityBeanInjector.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\ImagenServicio.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\auth\AutheticateGoogle.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\servis\DiaServicio.java
+C:\Users\ezequ\Downloads\PodoGonnet-App\PodoBackDeploy\src\main\java\Podogonnet\App\util\CookieUtil.java
