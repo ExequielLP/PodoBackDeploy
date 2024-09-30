@@ -29,8 +29,17 @@ public class CookieUtil {
 //       httpResponse.addCookie(cookie);
     }
     public static void clearCookie(HttpServletResponse httpServletResponse,String name){
+        String environment = System.getenv("ENTORNO");
+        String domein="";
+        if ("localDBlocal".equalsIgnoreCase(environment)){
+            domein="localhost";
+
+        }else {domein="podobackdeploy.onrender.com";
+
+        }
+
         ResponseCookie cookie = ResponseCookie.from(name, null)
-                .domain("podobackdeploy.onrender.com")
+                .domain(domein)
                 .path("/")
                 .maxAge(0)  // Establece el tiempo de expiración en segundos
                 .secure(true)    // Configura la cookie como segura
