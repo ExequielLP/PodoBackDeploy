@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.HashMap;
 import java.util.Map;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -41,7 +39,7 @@ public class AutheticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> Authetication(@RequestBody AutheticationRequest authen,
-                                                                HttpServletResponse httpServletResponse) {
+            HttpServletResponse httpServletResponse) {
         AuthenticationResponse auth = autheticateService.login(authen, httpServletResponse);
         return ResponseEntity.ok(auth);
     }
@@ -74,8 +72,9 @@ public class AutheticationController {
 
             AuthenticationResponse authenticationResponse = autheticateGoogle.login(token, httpServletResponse);
 
-//            CookieUtil.createCookie(httpServletResponse, cookieName, authenticationResponse.getJwt(), "localhost",
-//                    8000);
+            // CookieUtil.createCookie(httpServletResponse, cookieName,
+            // authenticationResponse.getJwt(), "localhost",
+            // 8000);
             return ResponseEntity.ok(authenticationResponse);
         } catch (Exception e) {
             System.out.println(
@@ -100,7 +99,22 @@ public class AutheticationController {
     }
 
     @GetMapping("/is-token-valid")
-    public ResponseEntity<String>valiteTokenAcces(@RequestParam String jwt){
-        return ResponseEntity.ok("ok");
+    public ResponseEntity<Map<String, String>> validateTokenAccess(@RequestParam String jwt) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            // Lógica para validar el JWT
+            if (jwt != null) {
+                response.put("message", "Token is valid");
+                // BAKEND DEVUELVE UN JSON EN ESTE CASO - PARA Q EL FRONT TOME LA DATA DEL
+                // USUARIO
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("message", "Invalid token");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+            }
+        } catch (Exception e) {
+            response.put("message", "Error validating token");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+        }
     }
 }
