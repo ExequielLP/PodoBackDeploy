@@ -48,6 +48,7 @@ public class HttpSecurityConfig {
                     authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/authenticate").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/auth/validate").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/google").permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/send-email").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/servicios").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/portal/listaSerivicios").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/portal/servicioPodo/{id}").permitAll();

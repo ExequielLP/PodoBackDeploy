@@ -1,11 +1,14 @@
 package Podogonnet.App.controller;
 
+import Podogonnet.App.dto.EmailDto;
 import Podogonnet.App.dto.auth.AutheticationRequest;
 import Podogonnet.App.entity.Usuario;
+import Podogonnet.App.servis.EmailService;
 import Podogonnet.App.servis.auth.AuthenticationResponse;
 import Podogonnet.App.servis.auth.AutheticateGoogle;
 import Podogonnet.App.servis.auth.AutheticateService;
 import Podogonnet.App.util.CookieUtil;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +16,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Map;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -31,15 +36,18 @@ public class AutheticationController {
     @Autowired
     private AutheticateGoogle autheticateGoogle;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> Authetication(@RequestBody AutheticationRequest authen,
-            HttpServletResponse httpServletResponse) {
-        AuthenticationResponse auth = autheticateService.login(authen,httpServletResponse);
+                                                                HttpServletResponse httpServletResponse) {
+        AuthenticationResponse auth = autheticateService.login(authen, httpServletResponse);
         return ResponseEntity.ok(auth);
     }
 
     @GetMapping("validate")
-    public boolean validate(HttpServletRequest httpServletRequest)  {
+    public boolean validate(HttpServletRequest httpServletRequest) {
         boolean isValidate = autheticateService.validateToken(httpServletRequest);
         return isValidate;
     }
@@ -64,14 +72,14 @@ public class AutheticationController {
         String token = body.get("token");
         try {
 
-            AuthenticationResponse authenticationResponse = autheticateGoogle.login(token,httpServletResponse);
+            AuthenticationResponse authenticationResponse = autheticateGoogle.login(token, httpServletResponse);
 
 //            CookieUtil.createCookie(httpServletResponse, cookieName, authenticationResponse.getJwt(), "localhost",
 //                    8000);
             return ResponseEntity.ok(authenticationResponse);
         } catch (Exception e) {
             System.out.println(
-                    "----------------------------------------------------------------------ERRORRR------------------------");
+                    "----------------------------ERRORRR------------------------------------");
             System.out.println(e.getMessage());
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -85,4 +93,9 @@ public class AutheticationController {
         return ResponseEntity.ok("Logout successful and cookie removed");
     }
 
+    @PostMapping("/send-email")
+    public ResponseEntity<String> forgetPassword(@RequestParam String email) throws MessagingException {
+        emailService.sendMail(email);
+        return ResponseEntity.ok("ok");
+    }
 }
