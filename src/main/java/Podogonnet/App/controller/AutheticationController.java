@@ -98,4 +98,9 @@ public class AutheticationController {
         emailService.sendMail(email);
         return ResponseEntity.ok("ok");
     }
+
+    @GetMapping("/is-token-valid")
+    public ResponseEntity<String>valiteTokenAcces(@RequestParam String jwt){
+        return ResponseEntity.ok("ok");
+    }
 }

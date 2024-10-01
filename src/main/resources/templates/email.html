@@ -3,11 +3,33 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Coreo de prueba</title>
+    <title>Recuperar contraseña</title>
+    <style>
+        h1 {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            color: #333;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: pink;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .serious-text {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-<h1>Hola!</h1>
-<p>Este es un mensaje para recuperar tu cuenta! envia 0.5 btc ahre no</p>
-
+<h1 class="serious-text">Hola! Bienvenido al departamente de recuperacion de datos!</h1>
+<a th:href="${link}" class="button">Accede a este link para recuperar tu contraseña!</a>
+<p th:text="${link}" style="display:none;"></p>
 </body>
 </html>

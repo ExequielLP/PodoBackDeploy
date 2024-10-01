@@ -8,6 +8,7 @@ F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podo
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Dia.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\auth\JwtService.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\dto\TurnosUsuario.java
+F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\email\EmailConfig.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\AdminController.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\Auditable.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\entity\ServicioPodo.java
@@ -27,9 +28,11 @@ F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podo
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\AppApplication.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\repository\ClientAppRepository.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\DiaServicio.java
+F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\servis\EmailService.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\CustomOAuth2SuccessHandler.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\UsuarioControlador.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\dto\RegisterUser.java
+F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\dto\EmailDto.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\AutheticationController.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\controller\TurnoControlador.java
 F:\Proyectos Programacion\PodoGonnetDeploy\PodoBackGonnet\App\src\main\java\Podogonnet\App\config\security\PersistensConfig.java
