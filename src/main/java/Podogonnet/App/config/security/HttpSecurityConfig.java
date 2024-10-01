@@ -17,6 +17,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 public class HttpSecurityConfig {
@@ -40,8 +41,8 @@ public class HttpSecurityConfig {
                 .authorizeHttpRequests(authRequestConfig -> {
                     // Rutas privadas
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/user").hasRole(Rol.ADMIN.name());
-                    authRequestConfig.requestMatchers(HttpMethod.POST, "/adminController/crearServicio").hasRole(Rol.ADMIN.name());
-
+                    authRequestConfig.requestMatchers(HttpMethod.POST, "/adminController/crearServicio")
+                            .hasRole(Rol.ADMIN.name());
 
                     // Rutas públicas
                     authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll();
@@ -49,11 +50,12 @@ public class HttpSecurityConfig {
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/auth/validate").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/google").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/send-email").permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/auth/is-token-valid").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/servicios").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/portal/listaSerivicios").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/portal/servicioPodo/{id}").permitAll();
-//                    authRequestConfig.requestMatchers("/oauth2/**").permitAll();
-//                    authRequestConfig.requestMatchers("/login/oauth2/**").permitAll(); ;
+                    // authRequestConfig.requestMatchers("/oauth2/**").permitAll();
+                    // authRequestConfig.requestMatchers("/login/oauth2/**").permitAll(); ;
                     authRequestConfig.anyRequest().authenticated();// Permitir acceso a todos los endpoints de OAuth2
                 });
 
@@ -63,11 +65,12 @@ public class HttpSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://podogonnet.netlify.app", "https://podofrontdeploy.onrender.com", "http://localhost:5173","https://accounts.google.com"));
+        configuration.setAllowedOrigins(Arrays.asList("https://podogonnet.netlify.app",
+                "https://podofrontdeploy.onrender.com", "http://localhost:5173", "https://accounts.google.com"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
-//        configuration.setExposedHeaders(Arrays.asList("Set-Cookie"));
+        // configuration.setExposedHeaders(Arrays.asList("Set-Cookie"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
