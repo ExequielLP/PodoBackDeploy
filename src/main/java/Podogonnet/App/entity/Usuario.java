@@ -58,7 +58,7 @@ public class Usuario extends Auditable implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return email;
     }
 
     @Override

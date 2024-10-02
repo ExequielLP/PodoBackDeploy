@@ -6,6 +6,7 @@ import lombok.Data;
 public class AuthenticationResponse {
     private String id;
     private String userName;
+    private String email;
     private String rol;
     private String jwt;
 }

@@ -22,7 +22,7 @@ public class AdminService implements CommandLineRunner {
     public void run(String... args) throws Exception {
         try {
 
-            if (usuarioRepository.findByUserName("admin").isEmpty()) {
+            if (usuarioRepository.findByEmail("admin@example.com").isEmpty()) {
                 Usuario admin = new Usuario();
                 admin.setUserName("admin");
                 admin.setNombre("Administrador");

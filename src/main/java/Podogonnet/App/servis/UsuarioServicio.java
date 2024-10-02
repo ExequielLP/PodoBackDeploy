@@ -48,8 +48,8 @@ public class UsuarioServicio {
         }
     }
 
-    public Usuario findOneByUsername(String username) {
-        Usuario usuario = usuarioRepositorio.findByUserName(username).get();
+    public Usuario findOneByEmail(String email) {
+        Usuario usuario = usuarioRepositorio.findByEmail(email).get();
         return usuario;
     }
 

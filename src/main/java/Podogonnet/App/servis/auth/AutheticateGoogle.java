@@ -54,6 +54,8 @@ public class AutheticateGoogle {
         GoogleIdToken idToken = verifier.verify(token);
         if (idToken != null) {
             GoogleIdToken.Payload payload = idToken.getPayload();
+            System.out.println("------------*-*-*-*-------------");
+            System.out.println(payload.getEmail());
             Optional usuario = usuarioRepositorio.findByEmail((String)payload.get("email"));
 
 
@@ -62,7 +64,7 @@ public class AutheticateGoogle {
                  usuarioDB = new Usuario();
                 usuarioDB.setNombre((String) payload.get("given_name"));
                 usuarioDB.setUserName((String) payload.get("given_name"));
-                usuarioDB.setEmail((String)payload.getEmail());
+                usuarioDB.setEmail((String)payload.get("email"));
                 usuarioDB.setPassword(null);
                 usuarioDB.setRol(Rol.USER);
                                 usuarioRepositorio.save(usuarioDB);
@@ -77,7 +79,7 @@ public class AutheticateGoogle {
 
            ;
             // Crear un UserDetails falso con la información del usuario
-            UserDetails fakeUserDetails = User.withUsername(((String) payload.get("given_name")))
+            UserDetails fakeUserDetails = User.withUsername(((String) payload.get("email")))
                     .password("")  // No se necesita la contraseña para OAuth2
                     .authorities(usuarioDB.getAuthorities())
                     .build();

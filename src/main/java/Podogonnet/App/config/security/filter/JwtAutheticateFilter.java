@@ -41,24 +41,31 @@ public class JwtAutheticateFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        /* extraer el subjet/username  usando el jwtService*/
-        String userName = jwtService.extracUsername(jwt);
+        try {
+            /* extraer el subjet/username  usando el jwtService*/
+            String userName = jwtService.extracEmail(jwt);
 
-        /* setear objete autentificado dentro de ContextHolder*/
-        Usuario user = usuarioServicio.findOneByUsername(userName);
-        /* creo el token de authetificacion para el securyt context holder*/
+            /* setear objete autentificado dentro de ContextHolder*/
+            Usuario user = null;
 
-        UsernamePasswordAuthenticationToken autheToken = new UsernamePasswordAuthenticationToken(userName, null, user.getAuthorities());
+            user = usuarioServicio.findByEmail(userName);
 
-        /*agrego detalles para sumar info a la authentificaicon*/
+            /* creo el token de authetificacion para el securyt context holder*/
 
-        autheToken.setDetails(new WebAuthenticationDetails(request));
+            UsernamePasswordAuthenticationToken autheToken = new UsernamePasswordAuthenticationToken(userName, null, user.getAuthorities());
 
-        /*seteo el secunrity context holder*/
+            /*agrego detalles para sumar info a la authentificaicon*/
 
-        SecurityContextHolder.getContext().setAuthentication(autheToken);
+            autheToken.setDetails(new WebAuthenticationDetails(request));
 
-        filterChain.doFilter(request, response);
+            /*seteo el secunrity context holder*/
+
+            SecurityContextHolder.getContext().setAuthentication(autheToken);
+
+            filterChain.doFilter(request, response);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

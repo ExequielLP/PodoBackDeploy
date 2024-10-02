@@ -36,7 +36,7 @@ public class EmailService {
         try {
             // busco el usuario en base al mail
             Usuario usuario = usuarioServicio.findByEmail(email);
-            UserDetails user = usuarioServicio.findOneByUsername(usuario.getUsername());
+            UserDetails user = usuarioServicio.findOneByEmail(usuario.getEmail());
             String jwt = jwtService.generateTokenPassword(user, generateExtraClaimsPassword((Usuario) user));
             InternetAddress emailAddr = new InternetAddress(email);
             emailAddr.validate();

@@ -63,12 +63,12 @@ public class AutheticateService {
     }
 
     public AuthenticationResponse login(AutheticationRequest authen,HttpServletResponse httpServletResponse) {
-        Authentication authentication = new UsernamePasswordAuthenticationToken(authen.getUserName(), authen.getPassword());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(authen.getEmail(), authen.getPassword());
 
 
         authenticationManager.authenticate(authentication);
 
-        UserDetails user = usuarioServicio.findOneByUsername(authen.getUserName());
+        UserDetails user = usuarioServicio.findOneByEmail(authen.getEmail());
 
         String jwt = jwtService.generateToken(user, generateExtraClaims((Usuario) user));
 
@@ -77,6 +77,7 @@ public class AutheticateService {
         authenticationResponse.setUserName(((Usuario) user).getNombre());
         authenticationResponse.setRol(((Usuario) user).getRol().toString());
         authenticationResponse.setId(((Usuario) user).getId());
+        authenticationResponse.setEmail(((Usuario) user).getEmail());
 
         String environment = System.getenv("ENTORNO");
         String domein="";
@@ -101,7 +102,7 @@ public class AutheticateService {
             Cookie cookie = WebUtils.getCookie(request, cookieName);
             System.out.println("el value de la coooikee esssssssssssssssssss");
             System.out.println(cookie.getValue());
-            jwtService.extracUsername(cookie.getValue());
+            jwtService.extracEmail(cookie.getValue());
             return true;
 
         } catch (Exception e) {
@@ -120,7 +121,7 @@ public class AutheticateService {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
         String user = (String) auth.getPrincipal();
-        return usuarioServicio.findOneByUsername(user);
+        return usuarioServicio.findOneByEmail(user);
 
     }
 
@@ -128,15 +129,17 @@ public class AutheticateService {
         try {
             Cookie cookie=WebUtils.getCookie(httpServletRequest,cookieName);
             String jwt=cookie.getValue();
-            String username = jwtService.extracUsername(jwt);
-            Usuario usuario = usuarioServicio.findOneByUsername(username);
+            String username = jwtService.extracEmail(jwt);
+            Usuario usuario = usuarioServicio.findByEmail(username);
             AuthenticationResponse authenticationResponse = new AuthenticationResponse();
             authenticationResponse.setId(usuario.getId());
             authenticationResponse.setUserName(usuario.getUsername());
             authenticationResponse.setRol(String.valueOf(usuario.getRol()));
             authenticationResponse.setJwt(jwt);
             return authenticationResponse;
-        } catch (Exception e) {
+
+
+        } catch (Throwable e) {
             throw new RuntimeException(e.getMessage());
         }
     }

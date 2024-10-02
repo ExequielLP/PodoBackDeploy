@@ -4,9 +4,11 @@ import Podogonnet.App.dto.EmailDto;
 import Podogonnet.App.dto.auth.AutheticationRequest;
 import Podogonnet.App.entity.Usuario;
 import Podogonnet.App.servis.EmailService;
+import Podogonnet.App.servis.UsuarioServicio;
 import Podogonnet.App.servis.auth.AuthenticationResponse;
 import Podogonnet.App.servis.auth.AutheticateGoogle;
 import Podogonnet.App.servis.auth.AutheticateService;
+import Podogonnet.App.servis.auth.JwtService;
 import Podogonnet.App.util.CookieUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,9 +39,14 @@ public class AutheticationController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private UsuarioServicio usuarioServicio;
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> Authetication(@RequestBody AutheticationRequest authen,
-            HttpServletResponse httpServletResponse) {
+                                                                HttpServletResponse httpServletResponse) {
         AuthenticationResponse auth = autheticateService.login(authen, httpServletResponse);
         return ResponseEntity.ok(auth);
     }
@@ -67,9 +74,10 @@ public class AutheticationController {
     @PostMapping("/google")
     public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body, HttpServletResponse httpServletResponse)
             throws GeneralSecurityException, IOException {
+        System.out.println("------4444444444444455555555555555555555");
         String token = body.get("token");
         try {
-
+            System.out.println("------44444444444444");
             AuthenticationResponse authenticationResponse = autheticateGoogle.login(token, httpServletResponse);
 
             // CookieUtil.createCookie(httpServletResponse, cookieName,
@@ -99,22 +107,29 @@ public class AutheticationController {
     }
 
     @GetMapping("/is-token-valid")
-    public ResponseEntity<Map<String, String>> validateTokenAccess(@RequestParam String jwt) {
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<AuthenticationResponse> validateTokenAccess(@RequestParam String jwt,HttpServletResponse httpServletResponse) {
         try {
-            // Lógica para validar el JWT
-            if (jwt != null) {
-                response.put("message", "Token is valid");
-                // BAKEND DEVUELVE UN JSON EN ESTE CASO - PARA Q EL FRONT TOME LA DATA DEL
-                // USUARIO
-                return ResponseEntity.ok(response);
-            } else {
-                response.put("message", "Invalid token");
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+            String email=jwtService.extracEmail(jwt);
+            Usuario usuario=usuarioServicio.findByEmail(email);
+            AuthenticationResponse authenticationResponse=new AuthenticationResponse();
+            authenticationResponse.setEmail(usuario.getEmail());
+            String environment = System.getenv("ENTORNO");
+            String domein="";
+            if ("localDBlocal".equalsIgnoreCase(environment)){
+                domein="localhost";
+                System.out.println(domein);
+            }else {domein="podobackdeploy.onrender.com";
+                System.out.println(domein);
             }
-        } catch (Exception e) {
-            response.put("message", "Error validating token");
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+
+            CookieUtil.createCookie(httpServletResponse, cookieName, jwt, domein, 8000);
+
+            return ResponseEntity.ok(authenticationResponse);
+
+        } catch (Throwable e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
+
+
 }
