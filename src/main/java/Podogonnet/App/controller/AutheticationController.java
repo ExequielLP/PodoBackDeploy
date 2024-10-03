@@ -4,6 +4,7 @@ import Podogonnet.App.dto.EmailDto;
 import Podogonnet.App.dto.auth.AutheticationRequest;
 import Podogonnet.App.entity.Usuario;
 import Podogonnet.App.servis.EmailService;
+import Podogonnet.App.servis.RecoverPasswordServicio;
 import Podogonnet.App.servis.UsuarioServicio;
 import Podogonnet.App.servis.auth.AuthenticationResponse;
 import Podogonnet.App.servis.auth.AutheticateGoogle;
@@ -40,9 +41,7 @@ public class AutheticationController {
     private EmailService emailService;
 
     @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private UsuarioServicio usuarioServicio;
+    private RecoverPasswordServicio recoverPasswordServicio;
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> Authetication(@RequestBody AutheticationRequest authen,
@@ -74,10 +73,10 @@ public class AutheticationController {
     @PostMapping("/google")
     public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body, HttpServletResponse httpServletResponse)
             throws GeneralSecurityException, IOException {
-        System.out.println("------4444444444444455555555555555555555");
+
         String token = body.get("token");
         try {
-            System.out.println("------44444444444444");
+
             AuthenticationResponse authenticationResponse = autheticateGoogle.login(token, httpServletResponse);
 
             // CookieUtil.createCookie(httpServletResponse, cookieName,
@@ -107,27 +106,26 @@ public class AutheticationController {
     }
 
     @GetMapping("/is-token-valid")
-    public ResponseEntity<AuthenticationResponse> validateTokenAccess(@RequestParam String jwt,HttpServletResponse httpServletResponse) {
+    public ResponseEntity<AuthenticationResponse> validateTokenAccess(@RequestParam String jwt, HttpServletResponse httpServletResponse) {
         try {
-            String email=jwtService.extracEmail(jwt);
-            Usuario usuario=usuarioServicio.findByEmail(email);
-            AuthenticationResponse authenticationResponse=new AuthenticationResponse();
-            authenticationResponse.setEmail(usuario.getEmail());
-            String environment = System.getenv("ENTORNO");
-            String domein="";
-            if ("localDBlocal".equalsIgnoreCase(environment)){
-                domein="localhost";
-                System.out.println(domein);
-            }else {domein="podobackdeploy.onrender.com";
-                System.out.println(domein);
-            }
-
-            CookieUtil.createCookie(httpServletResponse, cookieName, jwt, domein, 8000);
+            AuthenticationResponse authenticationResponse = recoverPasswordServicio.recoverPassword(jwt, httpServletResponse);
 
             return ResponseEntity.ok(authenticationResponse);
 
         } catch (Throwable e) {
             throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @PutMapping("/recovery-password")
+    public ResponseEntity<?> resetPassword(@RequestBody AutheticationRequest autheticationRequest) throws Throwable {
+        try {
+            System.out.println(autheticationRequest);
+            recoverPasswordServicio.resetPassword(autheticationRequest);
+            return ResponseEntity.ok("Contraseña correcta");
+        } catch (Exception e) {
+            e.getMessage();
+            return ResponseEntity.badRequest().build();
         }
     }
 
