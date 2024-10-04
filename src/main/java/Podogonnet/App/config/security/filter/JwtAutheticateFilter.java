@@ -3,6 +3,7 @@ package Podogonnet.App.config.security.filter;
 import Podogonnet.App.entity.Usuario;
 import Podogonnet.App.servis.UsuarioServicio;
 import Podogonnet.App.servis.auth.JwtService;
+import Podogonnet.App.util.CookieUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -37,7 +38,7 @@ public class JwtAutheticateFilter extends OncePerRequestFilter {
 
 
         String jwt = getToken(request);
-        if (jwt == null || jwt.isEmpty()) {
+        if (jwt == null || jwt.isEmpty() ) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -64,6 +65,7 @@ public class JwtAutheticateFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (Throwable e) {
+            CookieUtil.clearCookie(response,cookieName);
             throw new RuntimeException(e);
         }
 

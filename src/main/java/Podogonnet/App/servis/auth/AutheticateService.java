@@ -100,14 +100,14 @@ public class AutheticateService {
 
         try {
             Cookie cookie = WebUtils.getCookie(request, cookieName);
-            System.out.println("el value de la coooikee esssssssssssssssssss");
-            System.out.println(cookie.getValue());
             jwtService.extracEmail(cookie.getValue());
+
             return true;
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("validateTkoken(stringjwt---------------------------------------------------------------");
+
             return false;
 
         }

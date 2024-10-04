@@ -51,7 +51,7 @@ public class AutheticationController {
     }
 
     @GetMapping("validate")
-    public boolean validate(HttpServletRequest httpServletRequest) {
+    public boolean validate(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) {
         boolean isValidate = autheticateService.validateToken(httpServletRequest);
         return isValidate;
     }
@@ -118,10 +118,10 @@ public class AutheticationController {
     }
 
     @PutMapping("/recovery-password")
-    public ResponseEntity<?> resetPassword(@RequestBody AutheticationRequest autheticationRequest) throws Throwable {
+    public ResponseEntity<?> resetPassword(@RequestBody AutheticationRequest autheticationRequest,HttpServletResponse httpServletResponse) throws Throwable {
         try {
             System.out.println(autheticationRequest);
-            recoverPasswordServicio.resetPassword(autheticationRequest);
+            recoverPasswordServicio.resetPassword(autheticationRequest,httpServletResponse);
             return ResponseEntity.ok("Contraseña correcta");
         } catch (Exception e) {
             e.getMessage();

@@ -45,11 +45,12 @@ public class RecoverPasswordServicio {
         return authenticationResponse;
     }
 
-    public Usuario resetPassword(AutheticationRequest autheticationRequest) throws Throwable {
+    public Usuario resetPassword(AutheticationRequest autheticationRequest,HttpServletResponse httpServletResponse) throws Throwable {
        try {
            Usuario usuario=usuarioServicio.findByEmail(autheticationRequest.getEmail());
            usuario.setPassword(autheticationRequest.getPassword());
            usuarioRepositorio.save(usuario);
+            CookieUtil.clearCookie(httpServletResponse,cookieName);
            return usuario;
        }catch (Exception e){
            throw new RuntimeException("PROBLEMAS AL CAMBIO CONTRASEÑA DE USUARIO");
