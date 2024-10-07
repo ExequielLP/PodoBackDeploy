@@ -38,6 +38,7 @@ Podogonnet\App\entity\ClientApp.class
 Podogonnet\App\servis\auth\JwtService.class
 Podogonnet\App\auditor\AuditorAwareImp.class
 Podogonnet\App\servis\TurnoServicio.class
+Podogonnet\App\servis\RecoverPasswordServicio.class
 Podogonnet\App\controller\PortalControlador.class
 Podogonnet\App\util\CookieUtil.class
 Podogonnet\App\servis\auth\AutheticateGoogle.class

@@ -51,9 +51,9 @@ public class AutheticationController {
     }
 
     @GetMapping("validate")
-    public boolean validate(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) {
+    public ResponseEntity<Boolean> validate(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         boolean isValidate = autheticateService.validateToken(httpServletRequest);
-        return isValidate;
+        return ResponseEntity.ok(isValidate);
     }
 
     @GetMapping("/validateGetProfile")
@@ -128,6 +128,5 @@ public class AutheticationController {
             return ResponseEntity.badRequest().build();
         }
     }
-
 
 }
