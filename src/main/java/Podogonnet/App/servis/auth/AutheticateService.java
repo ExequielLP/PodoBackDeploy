@@ -107,7 +107,6 @@ public class AutheticateService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("validateTkoken(stringjwt---------------------------------------------------------------");
-
             return false;
 
         }
@@ -133,8 +132,9 @@ public class AutheticateService {
             Usuario usuario = usuarioServicio.findByEmail(username);
             AuthenticationResponse authenticationResponse = new AuthenticationResponse();
             authenticationResponse.setId(usuario.getId());
-            authenticationResponse.setUserName(usuario.getUsername());
+            authenticationResponse.setUserName(usuario.getNombre());
             authenticationResponse.setRol(String.valueOf(usuario.getRol()));
+            authenticationResponse.setEmail(usuario.getEmail());
             authenticationResponse.setJwt(jwt);
             return authenticationResponse;
 

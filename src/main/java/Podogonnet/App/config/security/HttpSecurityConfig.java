@@ -66,7 +66,7 @@ public class HttpSecurityConfig {
                             .hasRole(Rol.USER.name());
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/Turnos/listaTurnos/{id}")
                             .hasRole(Rol.USER.name());
-                    authRequestConfig.requestMatchers(HttpMethod.GET, "/Turnos/turnoDelDia/{date}").permitAll();
+                  //  authRequestConfig.requestMatchers(HttpMethod.GET, "/Turnos/turnoDelDia/{date}").permitAll();
                     // Faltaba agrega esta url para que no tie problemas de cors
                     authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/authenticate").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/google").permitAll();
@@ -74,8 +74,8 @@ public class HttpSecurityConfig {
                     authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll();
                     // Faltaba agrega esta url para que no tie problemas de --> Chekear si solo se
                     // le debe permitir al usuario!
-                    authRequestConfig.requestMatchers(HttpMethod.POST,
-                            "/Turnos/reservarTurno/{turnoId}/{servicioId}/{usuarioid}").permitAll();
+//                    authRequestConfig.requestMatchers(HttpMethod.POST,
+//                            "/Turnos/reservarTurno/{turnoId}/{servicioId}/{usuarioid}").permitAll();
                     // authRequestConfig.requestMatchers("/oauth2/**").permitAll();
                     // authRequestConfig.requestMatchers("/login/oauth2/**").permitAll(); ;
                     authRequestConfig.anyRequest().authenticated();// Permitir acceso a todos los endpoints de OAuth2
