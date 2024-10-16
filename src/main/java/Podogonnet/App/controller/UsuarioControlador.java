@@ -36,14 +36,10 @@ public class UsuarioControlador {
         return ResponseEntity.ok(listaUsuarios);
     }
 
-   @GetMapping("/login")
-    public String login() {
-        return "ingreso al login autentificado";
-    }
-
 
     @PostMapping("/register")
     public ResponseEntity<RegisterUser> register(@RequestBody SaveUser newUser) throws Exception {
+        System.out.println("holaaaaaaaaaaaaa");
         RegisterUser registerUser = autheticateService.registerOneCostumer(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(registerUser);
         /* return ResponseEntity.ok(RegisterUser registerUser= autheticateService.regusterOneCustumer(newUser);); */

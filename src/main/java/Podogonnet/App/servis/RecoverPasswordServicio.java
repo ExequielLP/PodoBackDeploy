@@ -9,10 +9,14 @@ import Podogonnet.App.util.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RecoverPasswordServicio {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
     private JwtService jwtService;
     @Autowired
@@ -47,8 +51,9 @@ public class RecoverPasswordServicio {
 
     public Usuario resetPassword(AutheticationRequest autheticationRequest,HttpServletResponse httpServletResponse) throws Throwable {
        try {
+           System.out.println("entrnado a reset");
            Usuario usuario=usuarioServicio.findByEmail(autheticationRequest.getEmail());
-           usuario.setPassword(autheticationRequest.getPassword());
+           usuario.setPassword(passwordEncoder.encode(autheticationRequest.getPassword()));
            usuarioRepositorio.save(usuario);
             CookieUtil.clearCookie(httpServletResponse,cookieName);
            return usuario;

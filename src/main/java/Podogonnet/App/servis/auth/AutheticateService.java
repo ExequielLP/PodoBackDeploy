@@ -38,6 +38,7 @@ public class AutheticateService {
     private JwtService jwtService;
 
     public RegisterUser registerOneCostumer(SaveUser newUser) throws Exception {
+
         Usuario user = usuarioServicio.registerOneCostumer(newUser);
         RegisterUser userDto = new RegisterUser();
         userDto.setName(user.getNombre());
@@ -106,7 +107,7 @@ public class AutheticateService {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("validateTkoken(stringjwt---------------------------------------------------------------");
+            System.out.println("validateTkoken()----> cookies del usuario no validad");
             return false;
 
         }

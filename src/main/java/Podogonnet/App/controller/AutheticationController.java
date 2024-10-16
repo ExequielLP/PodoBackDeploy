@@ -120,7 +120,7 @@ public class AutheticationController {
     @PutMapping("/recovery-password")
     public ResponseEntity<?> resetPassword(@RequestBody AutheticationRequest autheticationRequest,HttpServletResponse httpServletResponse) throws Throwable {
         try {
-            System.out.println(autheticationRequest);
+            System.out.println("entrnado a recovery passsword");
             recoverPasswordServicio.resetPassword(autheticationRequest,httpServletResponse);
             return ResponseEntity.ok("Contraseña correcta");
         } catch (Exception e) {
