@@ -7,8 +7,10 @@
     <title>Pedicuría La Plata</title>
     <style>
         body {
-            font-family: 'Sans-serif';
             background-color: #fff0f6;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5rem;
             padding: 16px;
         }
 
@@ -34,17 +36,18 @@
 
         .title {
             font-size: 1.875rem;
+            line-height: 2.25rem;
             font-weight: bold;
-            color: #ff69b4;
+            color: #FF9ABF;
         }
 
-        /* Content */
         .content {
             color: #4b5563;
         }
 
         .greeting {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
+            line-height: 1.75rem;
         }
 
         .reset-button-container {
@@ -54,20 +57,21 @@
         .reset-button {
             display: inline-block;
             padding: 12px 24px;
-            background-color: #ff69b4;
+            background-color: #FF9ABF;
             color: #ffffff !important;
             font-weight: 600;
             border-radius: 9999px;
             text-decoration: none;
             transition: background-color 0.3s;
+            cursor: pointer;
         }
 
         .reset-button:hover {
-            background-color: #db2777;
+            background-color: #ec4899;
         }
 
         .link {
-            color: #ec4899 !important;
+            color: #FF9ABF !important;
             text-decoration: underline;
         }
 
@@ -100,11 +104,11 @@
             <div class="reset-button-container">
                 <a th:href="${link}" class="reset-button">Restablecer Contraseña</a>
             </div>
-            <p>
+            <!-- <p>
                 Si el botón no funciona, copie y pegue el siguiente enlace en su navegador:
                 <br>
                 <a th:href="${link}" class="link" th:text="${link}"></a>
-            </p>
+            </p> -->
             <p>Este enlace expirará en 24 horas por razones de seguridad.</p>
             <p>
                 Si tiene alguna pregunta o necesita ayuda adicional, no dude en ponerse en contacto con
