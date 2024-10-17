@@ -42,10 +42,10 @@ public class EmailService {
             emailAddr.validate();
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setTo(email.trim());  // Usar trim para eliminar espacios
-            helper.setSubject("Recuperacion de contraseña PodoGonnet");
+            helper.setTo(email.trim()); // Usar trim para eliminar espacios
+            helper.setSubject("Recuperación de contraseña Pedicuría La Plata");
             Context context = new Context();
-// incorporo direccion de donde va el redirect del mail
+            // incorporo direccion de donde va el redirect del mail
             String environment = System.getenv("ENTORNO");
             String domein = "";
             if ("localDBlocal".equalsIgnoreCase(environment)) {
