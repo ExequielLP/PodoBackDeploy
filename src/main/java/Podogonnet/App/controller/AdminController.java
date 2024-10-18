@@ -1,7 +1,9 @@
 package Podogonnet.App.controller;
 
 import Podogonnet.App.dto.TurnosUsuario;
+import Podogonnet.App.entity.Feriado;
 import Podogonnet.App.entity.ServicioPodo;
+import Podogonnet.App.servis.DiaServicio;
 import Podogonnet.App.servis.ImagenServicio;
 import Podogonnet.App.servis.PodoServicio;
 import Podogonnet.App.servis.TurnoServicio;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -27,6 +30,9 @@ public class AdminController {
 
     @Autowired
     private TurnoServicio turnoServicio;
+
+    @Autowired
+    private DiaServicio diaServicio;
 
     @PostMapping("/crearServicio")
     public ResponseEntity<ServicioPodo> crearServicioPodo(
@@ -48,7 +54,7 @@ public class AdminController {
     // Chekear pq no cambian los paramentros
     @GetMapping("/listaTurnoAdmin")
     public ResponseEntity<Page<TurnosUsuario>> listaTurno(@RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) {
+                                                          @RequestParam(value = "size", defaultValue = "10") int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
             // Log para verificar los valores de los parámetros
@@ -90,11 +96,33 @@ public class AdminController {
 
     @PutMapping("/ModificarServicio")
     public void modificarServicio(@RequestParam("id") String id,
-            @RequestParam("nombre") String nombre,
-            @RequestParam("descripcion") String descripcion,
-            @RequestParam("costo") Double costo,
-            @RequestParam("file") MultipartFile file) throws IOException {
+                                  @RequestParam("nombre") String nombre,
+                                  @RequestParam("descripcion") String descripcion,
+                                  @RequestParam("costo") Double costo,
+                                  @RequestParam("file") MultipartFile file) throws IOException {
         podoServicio.modificarServicio(id, nombre, descripcion, costo, file);
     }
+
+    @PutMapping("/suspendeTurnoAdmin/{turnoId}")
+    public void suspenderTurnoAdmin(@PathVariable String turnoId) {
+        try {
+            turnoServicio.suspenderTurno(turnoId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @PostMapping("/agregarFeriadoAdmin/{date}")
+    public void feriadoDate(@PathVariable String date, @RequestBody Feriado feriado) {
+        try {
+            System.out.println("entro");
+            LocalDate localDate = LocalDate.parse(date);
+            diaServicio.agregarFeriado(localDate,feriado);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 }

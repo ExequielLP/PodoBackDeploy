@@ -20,7 +20,8 @@ public class Dia {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private LocalDate fecha;
-    private boolean feriado;
+    @ManyToOne
+    private Feriado feriado;
     private boolean completo;
 
 

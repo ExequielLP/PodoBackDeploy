@@ -2,8 +2,10 @@ package Podogonnet.App.servis;
 
 import Podogonnet.App.dto.TurnosUsuario;
 import Podogonnet.App.entity.Dia;
+import Podogonnet.App.entity.Feriado;
 import Podogonnet.App.entity.Turno;
 import Podogonnet.App.repository.DiaRepositorio;
+import Podogonnet.App.repository.FeriadoRepository;
 import Podogonnet.App.repository.TurnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ public class DiaServicio {
     private DiaRepositorio diaRepositorio;
     @Autowired
     private TurnoRepository turnoRepositorio;
+    @Autowired
+    private FeriadoRepository feriadoRepository;
 
     public List<TurnosUsuario> turnosDelDia(LocalDate localDate) throws Exception {
         try {
@@ -55,4 +59,17 @@ public class DiaServicio {
         }
     }
 
+    public void agregarFeriado(LocalDate localDate, Feriado feriadoFront) {
+        Dia dia=new Dia();
+        Optional<Dia>diaDB=diaRepositorio.findByFecha(localDate);
+        Feriado feriado=new Feriado();
+        feriado.setFecha(feriadoFront.getFecha());
+        feriado.setDescripcion(feriadoFront.getDescripcion());
+        feriadoRepository.save(feriado);
+        if (diaDB.isPresent()){
+            dia=diaDB.get();
+            dia.setFeriado(feriado);
+            diaRepositorio.save(dia);
+        }
+    }
 }

@@ -26,6 +26,8 @@ public class Turno extends Auditable {
     private Usuario usuario;
     @ManyToOne
     private Dia dia;
+    private boolean turnoSuspendible;
+    private boolean feriado;
 
 
 }

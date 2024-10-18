@@ -53,6 +53,12 @@ public class HttpSecurityConfig {
                             .hasRole(Rol.ADMIN.name());
                     authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/ModificarServicio")
                             .hasRole(Rol.ADMIN.name());
+                    // aca es el endpoint para cuando el admin quiere cancerlar el turno especifico de un dia
+                    authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/suspendeTurnoAdmin/{turnoId}")
+                            .permitAll();
+                    // endpot para que el admin agregue el feriado a dia en especifico
+                    authRequestConfig.requestMatchers(HttpMethod.POST, "/adminController/agregarFeriadoAdmin/{date}")
+                            .permitAll();
 
                     // Rutas públicas
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/auth/is-token-valid").permitAll();
@@ -65,7 +71,7 @@ public class HttpSecurityConfig {
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/Turnos/cancelarTurno/{id}")
                             .hasRole(Rol.USER.name());
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/Turnos/listaTurnos/{id}")
-                            .hasRole(Rol.USER.name());
+                           .hasRole(Rol.USER.name());
                   //  authRequestConfig.requestMatchers(HttpMethod.GET, "/Turnos/turnoDelDia/{date}").permitAll();
                     // Faltaba agrega esta url para que no tie problemas de cors
                     authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/authenticate").permitAll();

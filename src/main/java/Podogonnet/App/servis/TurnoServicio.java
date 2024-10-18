@@ -171,7 +171,7 @@ public class TurnoServicio {
 
                 Dia dia = new Dia();
                 dia.setFecha(date);
-                dia.setFeriado(false); // Asume que el día no es festivo
+                dia.setFeriado(null); // Asume que el día no es festivo
                 dia.setCompleto(false);
 
                 List<Turno> turnosDelDia = new ArrayList<>();
@@ -200,4 +200,15 @@ public class TurnoServicio {
         return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
     }
 
+    public void suspenderTurno(String turnoId) {
+        Turno turno=new Turno();
+        Optional<Turno> turnoDB=turnoRepository.findById(turnoId);
+        if (turnoDB.isPresent()){
+            turno=turnoDB.get();
+            turno.setTurnoSuspendible(true);
+            turno.setEstado(true);
+            turnoRepository.save(turno);
+        }
+
+    }
 }
