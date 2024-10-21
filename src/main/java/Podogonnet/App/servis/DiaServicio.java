@@ -59,7 +59,8 @@ public class DiaServicio {
         }
     }
 
-    public void agregarFeriado(LocalDate localDate, Feriado feriadoFront) {
+    public void agregarFeriado(Feriado feriadoFront) {
+        LocalDate localDate = feriadoFront.getFecha();
         Dia dia=new Dia();
         Optional<Dia>diaDB=diaRepositorio.findByFecha(localDate);
         Feriado feriado=new Feriado();

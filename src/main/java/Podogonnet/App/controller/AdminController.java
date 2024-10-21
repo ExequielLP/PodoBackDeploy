@@ -112,13 +112,11 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/agregarFeriadoAdmin/{date}")
-    public void feriadoDate(@PathVariable String date, @RequestBody Feriado feriado) {
+    @PostMapping("/agregarFeriadoAdmin")
+    public void feriadoDate(@RequestBody Feriado feriado) {
         try {
             System.out.println("entro");
-            LocalDate localDate = LocalDate.parse(date);
-            diaServicio.agregarFeriado(localDate,feriado);
-
+            diaServicio.agregarFeriado(feriado);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
