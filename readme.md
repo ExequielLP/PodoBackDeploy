@@ -1,13 +1,14 @@
 ## TO-DO:
 
-- [ ] Crear DTO de servicios para devolver a inicio
 - [ ] Limpiar south('').
-- [ ] Crear servicio para los métodos de envio de email de recuperación de contraseña.
-- [ ] Crear controlador para enviar mail de recuperación de contraseña.
 - [ ] Manejo de errores amigables para los logs.
-- [ ] Crear querys para buscar por ordenar por fecha las tablas
-- [ ] Crear querys para buscar por usuario (nombre/apellido)
-- [ ] Crear querys para buscar por servicio (nombre)
+- [ ] Crear query para traer la cantidad de turnos cancelados en el mes.
+- [ ] Crear query para traer la cantidad de turnos disponibles en el mes.
+- [ ] Crear query para traer la cantidad de turnos ocupados del día.
+- [ ] Crear query para traer la cantidad de turnos de ocupados de cada servicio x mes.
+- [ ] Crear querys para buscar por fecha ASC las tablas.
+- [ ] Crear querys para buscar por servicio (nombre).
+- [ ] Crear querys para buscar por usuario (nombre/apellido).
 
 ## TO-CHECK:
 
