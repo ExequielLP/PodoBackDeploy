@@ -21,7 +21,9 @@ Podogonnet\App\dto\auth\AutheticationRequest.class
 Podogonnet\App\repository\TurnoRepository.class
 Podogonnet\App\config\security\filter\JwtAutheticateFilter.class
 Podogonnet\App\entity\Feriado.class
+Podogonnet\App\dto\ServicioPodoDto.class
 Podogonnet\App\AppApplication.class
+Podogonnet\App\dto\ImagenDto.class
 Podogonnet\App\controller\AdminController.class
 Podogonnet\App\config\security\PersistensConfig.class
 Podogonnet\App\dto\RegisterUser.class
@@ -36,6 +38,7 @@ Podogonnet\App\servis\DiaServicio.class
 Podogonnet\App\entity\Turno.class
 Podogonnet\App\entity\ClientApp.class
 Podogonnet\App\servis\auth\JwtService.class
+Podogonnet\App\repository\FeriadoRepository.class
 Podogonnet\App\auditor\AuditorAwareImp.class
 Podogonnet\App\servis\TurnoServicio.class
 Podogonnet\App\servis\RecoverPasswordServicio.class
