@@ -1,7 +1,7 @@
 package Podogonnet.App.servis;
 
 import Podogonnet.App.dto.ServicioPodoDto;
-import Podogonnet.App.dto.auth.ImagenDto;
+import Podogonnet.App.dto.ImagenDto;
 import Podogonnet.App.entity.Imagen;
 import Podogonnet.App.entity.ServicioPodo;
 import Podogonnet.App.repository.PodoRepository;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.standard.expression.Each;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,6 +63,7 @@ public class PodoServicio {
                 ServicioPodoDto servicioPodoDto = new ServicioPodoDto();
                 ImagenDto imagenDto=new ImagenDto();
                 servicioPodoDto.setNombre(aux.getNombre());
+                servicioPodoDto.setId(aux.getId());
                 servicioPodoDto.setDescripcion(aux.getDescripcion());
                 servicioPodoDto.setCosto(aux.getCosto());
                 imagenDto.setContent(aux.getImagen().getContent());

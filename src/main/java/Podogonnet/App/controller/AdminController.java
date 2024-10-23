@@ -3,6 +3,7 @@ package Podogonnet.App.controller;
 import Podogonnet.App.dto.TurnosUsuario;
 import Podogonnet.App.entity.Feriado;
 import Podogonnet.App.entity.ServicioPodo;
+import Podogonnet.App.entity.Turno;
 import Podogonnet.App.servis.DiaServicio;
 import Podogonnet.App.servis.ImagenServicio;
 import Podogonnet.App.servis.PodoServicio;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -119,6 +121,26 @@ public class AdminController {
             diaServicio.agregarFeriado(feriado);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+// usar este enpot que ya esta en TurnosControlador
+//
+//    @GetMapping("turnoDelDia/{date}")
+//    public ResponseEntity<List<TurnosUsuario>> listaDeTurnos(@PathVariable String date) throws Exception {
+//        LocalDate localDate = LocalDate.parse(date);
+//        List<TurnosUsuario> dia = diaServicio.turnosDelDia(localDate);
+//        return ResponseEntity.ok(dia);
+//    }
+
+    @GetMapping("/listaTurnoDelMesAdmin/{date}")
+    public ResponseEntity<List<Turno>>turnosDelMesAdmin(@PathVariable String date){
+        try {
+            LocalDate datee=LocalDate.parse(date);
+            List<Turno> listaTurno=turnoServicio.turnosDelMes(datee);
+
+            return ResponseEntity.ok(listaTurno);
+        }catch (Exception e){
+            return null;
         }
     }
 

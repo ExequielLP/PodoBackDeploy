@@ -64,7 +64,7 @@ public class TurnoServicio {
             turno.setEstado(!turno.isEstado());
             turno.setUsuario(usuario);
             turnoRepository.save(turno);
-                       return turno;
+            return turno;
         } catch (Exception e) {
             throw new RuntimeException("Error al reservar el turno: " + e.getMessage(), e);
         }
@@ -152,11 +152,11 @@ public class TurnoServicio {
 
     public void generarTurnos(LocalDate startDate, LocalDate endDate) {
         List<LocalTime[]> horarios = new ArrayList<>();
-        horarios.add(new LocalTime[] { LocalTime.of(9, 0), LocalTime.of(10, 0) });
-        horarios.add(new LocalTime[] { LocalTime.of(10, 30), LocalTime.of(11, 30) });
-        horarios.add(new LocalTime[] { LocalTime.of(14, 0), LocalTime.of(15, 0) });
-        horarios.add(new LocalTime[] { LocalTime.of(15, 30), LocalTime.of(16, 30) });
-        horarios.add(new LocalTime[] { LocalTime.of(16, 30), LocalTime.of(17, 30) });
+        horarios.add(new LocalTime[]{LocalTime.of(9, 0), LocalTime.of(10, 0)});
+        horarios.add(new LocalTime[]{LocalTime.of(10, 30), LocalTime.of(11, 30)});
+        horarios.add(new LocalTime[]{LocalTime.of(14, 0), LocalTime.of(15, 0)});
+        horarios.add(new LocalTime[]{LocalTime.of(15, 30), LocalTime.of(16, 30)});
+        horarios.add(new LocalTime[]{LocalTime.of(16, 30), LocalTime.of(17, 30)});
 
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             if (esDiaLaboral(date)) {
@@ -201,13 +201,28 @@ public class TurnoServicio {
     }
 
     public void suspenderTurno(String turnoId) {
-        Turno turno=new Turno();
-        Optional<Turno> turnoDB=turnoRepository.findById(turnoId);
-        if (turnoDB.isPresent()){
-            turno=turnoDB.get();
+        Turno turno = new Turno();
+        Optional<Turno> turnoDB = turnoRepository.findById(turnoId);
+        if (turnoDB.isPresent()) {
+            turno = turnoDB.get();
             turno.setTurnoSuspendible(true);
             turno.setEstado(true);
             turnoRepository.save(turno);
+        }
+
+    }
+
+    public List<Turno> turnosDelMes(LocalDate date) {
+        try {
+            YearMonth yearMonth = YearMonth.of(date.getYear(), date.getMonth());
+            LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
+            LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+            List<Turno> turnosDelMes = turnoRepository.findByStartTimeBetween(startOfMonth, endOfMonth);
+            System.out.println(turnosDelMes);
+            return turnosDelMes;
+        } catch (Exception e) {
+
+            throw new RuntimeException("Error al obtener los turnos del mes" + e.getMessage());
         }
 
     }
