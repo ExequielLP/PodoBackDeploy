@@ -59,7 +59,7 @@ public class HttpSecurityConfig {
                     // endpot para que el admin agregue el feriado a dia en especifico
                     authRequestConfig.requestMatchers(HttpMethod.POST, "/adminController/agregarFeriadoAdmin")
                             .permitAll();
-                    authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaTurnoDelMesAdmin/**")
+                    authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaTurnoDelMesAdmin/{date}")
                             .permitAll();
 
 

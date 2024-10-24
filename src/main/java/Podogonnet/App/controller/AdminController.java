@@ -134,13 +134,16 @@ public class AdminController {
 
     @GetMapping("/listaTurnoDelMesAdmin/{date}")
     public ResponseEntity<List<Turno>>turnosDelMesAdmin(@PathVariable String date){
+        System.out.println("holi");
         try {
-            LocalDate datee=LocalDate.parse(date);
-            List<Turno> listaTurno=turnoServicio.turnosDelMes(datee);
 
+            LocalDate localDate = LocalDate.parse(date);
+            System.out.println("holi");
+            List<Turno> listaTurno=turnoServicio.turnosDelMes(localDate);
+            System.out.println(listaTurno);
             return ResponseEntity.ok(listaTurno);
         }catch (Exception e){
-            return null;
+            throw  new  RuntimeException(e.getMessage());
         }
     }
 
