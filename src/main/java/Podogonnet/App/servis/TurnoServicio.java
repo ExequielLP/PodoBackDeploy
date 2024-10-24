@@ -153,11 +153,11 @@ public class TurnoServicio {
 
     public void generarTurnos(LocalDate startDate, LocalDate endDate) {
         List<LocalTime[]> horarios = new ArrayList<>();
-        horarios.add(new LocalTime[]{LocalTime.of(9, 0), LocalTime.of(10, 0)});
-        horarios.add(new LocalTime[]{LocalTime.of(10, 30), LocalTime.of(11, 30)});
-        horarios.add(new LocalTime[]{LocalTime.of(14, 0), LocalTime.of(15, 0)});
-        horarios.add(new LocalTime[]{LocalTime.of(15, 30), LocalTime.of(16, 30)});
-        horarios.add(new LocalTime[]{LocalTime.of(16, 30), LocalTime.of(17, 30)});
+        horarios.add(new LocalTime[] { LocalTime.of(9, 0), LocalTime.of(10, 0) });
+        horarios.add(new LocalTime[] { LocalTime.of(10, 30), LocalTime.of(11, 30) });
+        horarios.add(new LocalTime[] { LocalTime.of(14, 0), LocalTime.of(15, 0) });
+        horarios.add(new LocalTime[] { LocalTime.of(15, 30), LocalTime.of(16, 30) });
+        horarios.add(new LocalTime[] { LocalTime.of(16, 30), LocalTime.of(17, 30) });
 
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             if (esDiaLaboral(date)) {
@@ -223,7 +223,7 @@ public class TurnoServicio {
             System.out.println("endOfMonth " + endOfMonth);
             List<Turno> turnosDelMes = turnoRepository.findByStartTimeBetween(startOfMonth, endOfMonth);
             List<TurnoDto> turnosDtos = new ArrayList<>();
-            int cont=0;
+            int cont = 0;
             for (Turno aux : turnosDelMes) {
                 TurnoDto turnoDto = new TurnoDto();
                 turnoDto.setId(aux.getId());
@@ -232,9 +232,9 @@ public class TurnoServicio {
                 turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
                 turnoDto.setEstado(aux.isEstado());
                 turnoDto.setFeriado(aux.isFeriado());
-                //turnoDto.setNombreServicio(aux.getServicioPodo() != null ? aux.getServicioPodo().getNombre() : null);
+                turnoDto.setNombreServicio(aux.getServicioPodo() != null ? aux.getServicioPodo().getNombre() : null);
                 turnosDtos.add(turnoDto);
-                cont=cont+1;
+                cont = cont + 1;
             }
             System.out.println(turnosDelMes);
             System.out.println("laaaaaaaaaaaaacon");
