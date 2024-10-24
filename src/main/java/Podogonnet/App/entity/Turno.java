@@ -18,11 +18,13 @@ public class Turno extends Auditable {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     @ManyToOne
+    @ToString.Exclude
     private ServicioPodo servicioPodo;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private boolean estado;
     @ManyToOne
+    @ToString.Exclude
     private Usuario usuario;
     @ManyToOne
     private Dia dia;

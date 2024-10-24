@@ -21,20 +21,12 @@ public class Dia {
     private String id;
     private LocalDate fecha;
     @ManyToOne
+    @ToString.Exclude
     private Feriado feriado;
     private boolean completo;
-
-
     @OneToMany(mappedBy = "dia", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Turno> turnos;
 
-    @Override
-    public String toString() {
-        return "Dia{" +
-                "id=" + id +
-                ", fecha=" + fecha +
-                ", feriado=" + feriado +
-                ", completo=" + completo +
-                '}';
-    }
+
 }

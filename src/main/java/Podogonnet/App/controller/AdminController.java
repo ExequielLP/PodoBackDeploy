@@ -1,5 +1,6 @@
 package Podogonnet.App.controller;
 
+import Podogonnet.App.dto.TurnoDto;
 import Podogonnet.App.dto.TurnosUsuario;
 import Podogonnet.App.entity.Feriado;
 import Podogonnet.App.entity.ServicioPodo;
@@ -133,17 +134,17 @@ public class AdminController {
 //    }
 
     @GetMapping("/listaTurnoDelMesAdmin/{date}")
-    public ResponseEntity<List<Turno>>turnosDelMesAdmin(@PathVariable String date){
-        System.out.println("holi");
+    public ResponseEntity<List<TurnoDto>> turnosDelMesAdmin(@PathVariable String date) {
+
         try {
 
             LocalDate localDate = LocalDate.parse(date);
             System.out.println("holi");
-            List<Turno> listaTurno=turnoServicio.turnosDelMes(localDate);
+            List<TurnoDto> listaTurno = turnoServicio.turnosDelMes(localDate);
             System.out.println(listaTurno);
             return ResponseEntity.ok(listaTurno);
-        }catch (Exception e){
-            throw  new  RuntimeException(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 

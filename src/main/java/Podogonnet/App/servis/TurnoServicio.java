@@ -1,5 +1,6 @@
 package Podogonnet.App.servis;
 
+import Podogonnet.App.dto.TurnoDto;
 import Podogonnet.App.dto.TurnosUsuario;
 import Podogonnet.App.entity.Dia;
 import Podogonnet.App.entity.ServicioPodo;
@@ -212,14 +213,34 @@ public class TurnoServicio {
 
     }
 
-    public List<Turno> turnosDelMes(LocalDate date) {
+    public List<TurnoDto> turnosDelMes(LocalDate date) {
         try {
             YearMonth yearMonth = YearMonth.of(date.getYear(), date.getMonth());
+            System.out.println("yearMonth " + yearMonth);
             LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
+            System.out.println("startOfMonth " + startOfMonth);
             LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+            System.out.println("endOfMonth " + endOfMonth);
             List<Turno> turnosDelMes = turnoRepository.findByStartTimeBetween(startOfMonth, endOfMonth);
+            List<TurnoDto> turnosDtos = new ArrayList<>();
+            int cont=0;
+            for (Turno aux : turnosDelMes) {
+                TurnoDto turnoDto = new TurnoDto();
+                turnoDto.setId(aux.getId());
+                turnoDto.setStartTime(aux.getStartTime());
+                turnoDto.setEndTime(aux.getEndTime());
+                turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
+                turnoDto.setEstado(aux.isEstado());
+                turnoDto.setFeriado(aux.isFeriado());
+                //turnoDto.setNombreServicio(aux.getServicioPodo() != null ? aux.getServicioPodo().getNombre() : null);
+                turnosDtos.add(turnoDto);
+                cont=cont+1;
+            }
             System.out.println(turnosDelMes);
-            return turnosDelMes;
+            System.out.println("laaaaaaaaaaaaacon");
+            System.out.println(cont);
+            return turnosDtos;
+
         } catch (Exception e) {
 
             throw new RuntimeException("Error al obtener los turnos del mes" + e.getMessage());
