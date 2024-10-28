@@ -27,7 +27,7 @@ JwtService {
 
     public String generateToken(UserDetails user, Map<String,Object>extraClamis) {
        Date issuedAt=new Date(System.currentTimeMillis());
-       Date expiration=new Date((EXPIRATION_IN_MINUTES*60*100)+issuedAt.getTime());
+       Date expiration=new Date((EXPIRATION_IN_MINUTES*60*1000)+issuedAt.getTime());
 
         String jwt= Jwts.builder()
                 .header()
