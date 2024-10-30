@@ -85,6 +85,7 @@ public class TurnoServicio {
                 turnoDtp.setStartTime(turDB.getStartTime());
                 turnoDtp.setEndTime(turDB.getEndTime());
                 turnoDtp.setEstado(turDB.isEstado());
+                turnoDtp.setNombreUsuario(turDB.getUsuario().getNombre());
                 ListDto.add(turnoDtp);
             }
             return ListDto;
