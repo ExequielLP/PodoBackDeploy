@@ -1,5 +1,6 @@
 package Podogonnet.App.servis;
 
+import Podogonnet.App.dto.TurnoDto;
 import Podogonnet.App.dto.TurnosUsuario;
 import Podogonnet.App.entity.Dia;
 import Podogonnet.App.entity.ServicioPodo;
@@ -64,7 +65,7 @@ public class TurnoServicio {
             turno.setEstado(!turno.isEstado());
             turno.setUsuario(usuario);
             turnoRepository.save(turno);
-                       return turno;
+            return turno;
         } catch (Exception e) {
             throw new RuntimeException("Error al reservar el turno: " + e.getMessage(), e);
         }
@@ -84,6 +85,7 @@ public class TurnoServicio {
                 turnoDtp.setStartTime(turDB.getStartTime());
                 turnoDtp.setEndTime(turDB.getEndTime());
                 turnoDtp.setEstado(turDB.isEstado());
+                turnoDtp.setNombreUsuario(turDB.getUsuario().getNombre());
                 ListDto.add(turnoDtp);
             }
             return ListDto;
@@ -171,7 +173,7 @@ public class TurnoServicio {
 
                 Dia dia = new Dia();
                 dia.setFecha(date);
-                dia.setFeriado(false); // Asume que el día no es festivo
+                dia.setFeriado(null); // Asume que el día no es festivo
                 dia.setCompleto(false);
 
                 List<Turno> turnosDelDia = new ArrayList<>();
@@ -200,4 +202,50 @@ public class TurnoServicio {
         return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
     }
 
+    public void suspenderTurno(String turnoId) {
+        Turno turno = new Turno();
+        Optional<Turno> turnoDB = turnoRepository.findById(turnoId);
+        if (turnoDB.isPresent()) {
+            turno = turnoDB.get();
+            turno.setTurnoSuspendible(true);
+            turno.setEstado(true);
+            turnoRepository.save(turno);
+        }
+
+    }
+
+    public List<TurnoDto> turnosDelMes(LocalDate date) {
+        try {
+            YearMonth yearMonth = YearMonth.of(date.getYear(), date.getMonth());
+            System.out.println("yearMonth " + yearMonth);
+            LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
+            System.out.println("startOfMonth " + startOfMonth);
+            LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+            System.out.println("endOfMonth " + endOfMonth);
+            List<Turno> turnosDelMes = turnoRepository.findByStartTimeBetween(startOfMonth, endOfMonth);
+            List<TurnoDto> turnosDtos = new ArrayList<>();
+            int cont = 0;
+            for (Turno aux : turnosDelMes) {
+                TurnoDto turnoDto = new TurnoDto();
+                turnoDto.setId(aux.getId());
+                turnoDto.setStartTime(aux.getStartTime());
+                turnoDto.setEndTime(aux.getEndTime());
+                turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
+                turnoDto.setEstado(aux.isEstado());
+                turnoDto.setFeriado(aux.isFeriado());
+                turnoDto.setNombreServicio(aux.getServicioPodo() != null ? aux.getServicioPodo().getNombre() : null);
+                turnosDtos.add(turnoDto);
+                cont = cont + 1;
+            }
+            System.out.println(turnosDelMes);
+            System.out.println("laaaaaaaaaaaaacon");
+            System.out.println(cont);
+            return turnosDtos;
+
+        } catch (Exception e) {
+
+            throw new RuntimeException("Error al obtener los turnos del mes" + e.getMessage());
+        }
+
+    }
 }

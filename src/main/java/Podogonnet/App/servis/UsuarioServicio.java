@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
 @Service
 public class UsuarioServicio {
     @Autowired
@@ -18,14 +21,14 @@ public class UsuarioServicio {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Page<Usuario> listaDeUser( Pageable pageable) {
+    public Page<Usuario> listaDeUser(Pageable pageable) {
         Page<Usuario> list = usuarioRepositorio.findAll(pageable);
         return list;
     }
 
     public Usuario registerOneCostumer(SaveUser newUser) throws Exception {
         validatePassword(newUser);
-        Usuario user=new Usuario();
+        Usuario user = new Usuario();
         user.setNombre(newUser.getName());
         user.setUserName(newUser.getUserName());
         user.setRol(Rol.USER);
@@ -34,7 +37,8 @@ public class UsuarioServicio {
         usuarioRepositorio.save(user);
 
 
-    return user;}
+        return user;
+    }
 
     private void validatePassword(SaveUser newUser) throws Exception {
         if (newUser.getPassword().isEmpty() || newUser.getRepeatePassword().isEmpty()) {
@@ -44,10 +48,13 @@ public class UsuarioServicio {
         }
     }
 
-    public Usuario findOneByUsername(String username) {
-Usuario usuario= usuarioRepositorio.findByUserName(username).get();
- return usuario;   }
+    public Usuario findOneByEmail(String email) {
+        Usuario usuario = usuarioRepositorio.findByEmail(email).get();
+        return usuario;
+    }
 
-
-
+    public Usuario findByEmail(String email) throws Throwable {
+        return (Usuario) usuarioRepositorio.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario con email " + email + " no encontrado"));
+    }
 }

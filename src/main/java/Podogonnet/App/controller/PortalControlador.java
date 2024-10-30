@@ -1,5 +1,6 @@
 package Podogonnet.App.controller;
 
+import Podogonnet.App.dto.ServicioPodoDto;
 import Podogonnet.App.entity.ServicioPodo;
 import Podogonnet.App.servis.PodoServicio;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class PortalControlador {
     private PodoServicio podoServicio;
 
     @GetMapping("/listaSerivicios")
-    public ResponseEntity<List<ServicioPodo>>listaServicios(){
-        List<ServicioPodo>listaServicios=podoServicio.listaServicios();
+    public ResponseEntity<List<ServicioPodoDto>>listaServicios(){
+        List<ServicioPodoDto>listaServicios=podoServicio.listaServicios();
         return ResponseEntity.ok(listaServicios);
     }
     @GetMapping("/servicioPodo/{id}")

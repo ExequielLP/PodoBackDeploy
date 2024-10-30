@@ -1,7 +1,11 @@
 package Podogonnet.App.controller;
 
+import Podogonnet.App.dto.TurnoDto;
 import Podogonnet.App.dto.TurnosUsuario;
+import Podogonnet.App.entity.Feriado;
 import Podogonnet.App.entity.ServicioPodo;
+import Podogonnet.App.entity.Turno;
+import Podogonnet.App.servis.DiaServicio;
 import Podogonnet.App.servis.ImagenServicio;
 import Podogonnet.App.servis.PodoServicio;
 import Podogonnet.App.servis.TurnoServicio;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,6 +33,9 @@ public class AdminController {
 
     @Autowired
     private TurnoServicio turnoServicio;
+
+    @Autowired
+    private DiaServicio diaServicio;
 
     @PostMapping("/crearServicio")
     public ResponseEntity<ServicioPodo> crearServicioPodo(
@@ -48,7 +57,7 @@ public class AdminController {
     // Chekear pq no cambian los paramentros
     @GetMapping("/listaTurnoAdmin")
     public ResponseEntity<Page<TurnosUsuario>> listaTurno(@RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) {
+                                                          @RequestParam(value = "size", defaultValue = "10") int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
             // Log para verificar los valores de los parámetros
@@ -90,11 +99,54 @@ public class AdminController {
 
     @PutMapping("/ModificarServicio")
     public void modificarServicio(@RequestParam("id") String id,
-            @RequestParam("nombre") String nombre,
-            @RequestParam("descripcion") String descripcion,
-            @RequestParam("costo") Double costo,
-            @RequestParam("file") MultipartFile file) throws IOException {
+                                  @RequestParam("nombre") String nombre,
+                                  @RequestParam("descripcion") String descripcion,
+                                  @RequestParam("costo") Double costo,
+                                  @RequestParam("file") MultipartFile file) throws IOException {
         podoServicio.modificarServicio(id, nombre, descripcion, costo, file);
     }
+
+    @PutMapping("/suspendeTurnoAdmin/{turnoId}")
+    public void suspenderTurnoAdmin(@PathVariable String turnoId) {
+        try {
+            turnoServicio.suspenderTurno(turnoId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @PostMapping("/agregarFeriadoAdmin")
+    public void feriadoDate(@RequestBody Feriado feriado) {
+        try {
+            System.out.println("entro");
+            diaServicio.agregarFeriado(feriado);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+// usar este enpot que ya esta en TurnosControlador
+//
+//    @GetMapping("turnoDelDia/{date}")
+//    public ResponseEntity<List<TurnosUsuario>> listaDeTurnos(@PathVariable String date) throws Exception {
+//        LocalDate localDate = LocalDate.parse(date);
+//        List<TurnosUsuario> dia = diaServicio.turnosDelDia(localDate);
+//        return ResponseEntity.ok(dia);
+//    }
+
+    @GetMapping("/listaTurnoDelMesAdmin/{date}")
+    public ResponseEntity<List<TurnoDto>> turnosDelMesAdmin(@PathVariable String date) {
+
+        try {
+
+            LocalDate localDate = LocalDate.parse(date);
+            System.out.println("holi");
+            List<TurnoDto> listaTurno = turnoServicio.turnosDelMes(localDate);
+            System.out.println(listaTurno);
+            return ResponseEntity.ok(listaTurno);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
 
 }

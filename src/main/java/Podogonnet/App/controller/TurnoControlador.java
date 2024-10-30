@@ -6,6 +6,7 @@ import Podogonnet.App.servis.DiaServicio;
 import Podogonnet.App.servis.TurnoServicio;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -35,9 +37,14 @@ public class TurnoControlador {
 
     @GetMapping("turnoDelDia/{date}")
     public ResponseEntity<List<TurnosUsuario>> listaDeTurnos(@PathVariable String date) throws Exception {
-        LocalDate localDate = LocalDate.parse(date);
-        List<TurnosUsuario> dia = diaServicio.turnosDelDia(localDate);
-        return ResponseEntity.ok(dia);
+      try {
+          LocalDate localDate = LocalDate.parse(date);
+          List<TurnosUsuario> dia = diaServicio.turnosDelDia(localDate);
+          return ResponseEntity.ok(dia);
+      }catch (Exception e){
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                  .body(Collections.emptyList()); // Manejo genérico de excepciones
+      }
     }
 
     @PostMapping("/reservarTurno/{turnoId}/{servicioId}/{usuarioid}")

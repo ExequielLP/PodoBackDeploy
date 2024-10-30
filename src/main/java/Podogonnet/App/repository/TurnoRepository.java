@@ -30,4 +30,6 @@ public interface TurnoRepository extends JpaRepository<Turno, String> {
 
 
     Page<Turno> findByEstadoTrue(Pageable pageable);
+
+    List<Turno> findByStartTimeBetween(LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 }

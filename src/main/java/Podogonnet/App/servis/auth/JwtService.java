@@ -42,6 +42,25 @@ JwtService {
 
       return   jwt;
     }
+    public String generateTokenPassword(UserDetails user, Map<String,Object>extraClamis) {
+        Date issuedAt=new Date(System.currentTimeMillis());
+        Date expiration=new Date((EXPIRATION_IN_MINUTES*60*10)+issuedAt.getTime());
+
+        String jwt= Jwts.builder()
+                .header()
+                .type("JWT")
+                .and()
+                .claims(extraClamis)
+                .subject(user.getUsername())
+                .issuedAt(issuedAt)
+                .expiration(expiration)
+                .signWith(generateKey(),Jwts.SIG.HS256)
+                .compact();
+
+        return   jwt;
+    }
+
+
     private SecretKey generateKey(){
         byte[] passwordDecorder= Decoders.BASE64.decode(SECRETE_KEY);
 
@@ -49,7 +68,7 @@ JwtService {
 
     }
 
-    public String extracUsername(String jwt){
+    public String extracEmail(String jwt){
 
         return extracAllclaims(jwt).getSubject();
 

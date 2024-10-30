@@ -17,6 +17,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 public class HttpSecurityConfig {
@@ -38,21 +39,54 @@ public class HttpSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAutheticateFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authRequestConfig -> {
-                    // Rutas privadas
+                    // Rutas privadas ADMIN
+                    authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaServiciosAdmin")
+                            .hasRole(Rol.ADMIN.name());
+                    authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaTurnoAdmin")
+                            .hasRole(Rol.ADMIN.name());
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/user").hasRole(Rol.ADMIN.name());
-                    authRequestConfig.requestMatchers(HttpMethod.POST, "/adminController/crearServicio").hasRole(Rol.ADMIN.name());
+                    authRequestConfig.requestMatchers(HttpMethod.POST, "/adminController/crearServicio")
+                            .hasRole(Rol.ADMIN.name());
+                    authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/AltaBajaServicio/{id}")
+                            .hasRole(Rol.ADMIN.name());
+                    authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/AltaBaja/{id}")
+                            .hasRole(Rol.ADMIN.name());
+                    authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/ModificarServicio")
+                            .hasRole(Rol.ADMIN.name());
+                    // aca es el endpoint para cuando el admin quiere cancerlar el turno especifico de un dia
+                    authRequestConfig.requestMatchers(HttpMethod.PUT, "/adminController/suspendeTurnoAdmin/{turnoId}")
+                            .permitAll();
+                    // endpot para que el admin agregue el feriado a dia en especifico
+                    authRequestConfig.requestMatchers(HttpMethod.POST, "/adminController/agregarFeriadoAdmin")
+                            .permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaTurnoDelMesAdmin/{date}")
+                            .permitAll();
 
 
                     // Rutas públicas
-                    authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll();
-                    authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/authenticate").permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/auth/is-token-valid").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/auth/validate").permitAll();
-                    authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/google").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/api/v1/servicios").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/portal/listaSerivicios").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/portal/servicioPodo/{id}").permitAll();
-//                    authRequestConfig.requestMatchers("/oauth2/**").permitAll();
-//                    authRequestConfig.requestMatchers("/login/oauth2/**").permitAll(); ;
+                    // Faltaba agrega esta url para que no tie problemas de cors
+                    // Esto deberia ser un PUT?
+                    authRequestConfig.requestMatchers(HttpMethod.GET, "/Turnos/cancelarTurno/{id}")
+                            .hasRole(Rol.USER.name());
+                    authRequestConfig.requestMatchers(HttpMethod.GET, "/Turnos/listaTurnos/{id}")
+                           .hasRole(Rol.USER.name());
+                  //  authRequestConfig.requestMatchers(HttpMethod.GET, "/Turnos/turnoDelDia/{date}").permitAll();
+                    // Faltaba agrega esta url para que no tie problemas de cors
+                    authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/authenticate").permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/google").permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/auth/send-email").permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll();
+                    // Faltaba agrega esta url para que no tie problemas de --> Chekear si solo se
+                    // le debe permitir al usuario!
+//                    authRequestConfig.requestMatchers(HttpMethod.POST,
+//                            "/Turnos/reservarTurno/{turnoId}/{servicioId}/{usuarioid}").permitAll();
+                    // authRequestConfig.requestMatchers("/oauth2/**").permitAll();
+                    // authRequestConfig.requestMatchers("/login/oauth2/**").permitAll(); ;
                     authRequestConfig.anyRequest().authenticated();// Permitir acceso a todos los endpoints de OAuth2
                 });
 
@@ -62,11 +96,12 @@ public class HttpSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://podogonnet.netlify.app", "https://podofrontdeploy.onrender.com", "http://localhost:5173","https://accounts.google.com"));
+        configuration.setAllowedOrigins(Arrays.asList("https://podogonnet.netlify.app",
+                "https://podofrontdeploy.onrender.com", "http://localhost:5173", "https://accounts.google.com"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
-//        configuration.setExposedHeaders(Arrays.asList("Set-Cookie"));
+        // configuration.setExposedHeaders(Arrays.asList("Set-Cookie"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
