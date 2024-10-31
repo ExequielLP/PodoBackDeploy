@@ -44,8 +44,8 @@ public class DiaServicio {
                     turnosDTO.setStartTime(diaAUX.getStartTime());
                     turnosDTO.setEndTime(diaAUX.getEndTime());
                     turnosDTO.setEstado(diaAUX.isEstado());
-                    turnosDTO.setNombreUsuario(diaAUX.getUsuario().getNombre());
-                    turnosDTO.setNombreServicio(diaAUX.getServicioPodo().getNombre());
+                    turnosDTO.setNombreUsuario(diaAUX.getUsuario() != null ? diaAUX.getUsuario().getNombre() : null);
+                    turnosDTO.setNombreServicio(diaAUX.getServicioPodo() != null ? diaAUX.getServicioPodo().getNombre() : null);
                     listaturnosDTO.add(turnosDTO);
                 }
                 System.out.println("---------------------------------------");
