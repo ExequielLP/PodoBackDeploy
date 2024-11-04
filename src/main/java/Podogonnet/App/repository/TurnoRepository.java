@@ -1,6 +1,7 @@
 package Podogonnet.App.repository;
 
 
+import Podogonnet.App.dto.TurnoDto;
 import Podogonnet.App.entity.Turno;
 import Podogonnet.App.entity.Usuario;
 import org.springframework.data.domain.Page;
@@ -32,4 +33,9 @@ public interface TurnoRepository extends JpaRepository<Turno, String> {
     Page<Turno> findByEstadoTrue(Pageable pageable);
 
     List<Turno> findByStartTimeBetween(LocalDateTime startOfMonth, LocalDateTime endOfMonth);
+
+
+    List<Turno> findByUsuarioNombre(String nombre);
+
+    List<Turno> findByServicioPodoNombre(String servicio);
 }

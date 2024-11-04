@@ -61,6 +61,8 @@ public class HttpSecurityConfig {
                             .permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaTurnoDelMesAdmin/{date}")
                             .permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/filtrarTurnoPor")
+                            .permitAll();
 
 
                     // Rutas públicas

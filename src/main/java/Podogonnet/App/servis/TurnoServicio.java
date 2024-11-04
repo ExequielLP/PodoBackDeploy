@@ -154,11 +154,11 @@ public class TurnoServicio {
 
     public void generarTurnos(LocalDate startDate, LocalDate endDate) {
         List<LocalTime[]> horarios = new ArrayList<>();
-        horarios.add(new LocalTime[] { LocalTime.of(9, 0), LocalTime.of(10, 0) });
-        horarios.add(new LocalTime[] { LocalTime.of(10, 30), LocalTime.of(11, 30) });
-        horarios.add(new LocalTime[] { LocalTime.of(14, 0), LocalTime.of(15, 0) });
-        horarios.add(new LocalTime[] { LocalTime.of(15, 30), LocalTime.of(16, 30) });
-        horarios.add(new LocalTime[] { LocalTime.of(16, 30), LocalTime.of(17, 30) });
+        horarios.add(new LocalTime[]{LocalTime.of(9, 0), LocalTime.of(10, 0)});
+        horarios.add(new LocalTime[]{LocalTime.of(10, 30), LocalTime.of(11, 30)});
+        horarios.add(new LocalTime[]{LocalTime.of(14, 0), LocalTime.of(15, 0)});
+        horarios.add(new LocalTime[]{LocalTime.of(15, 30), LocalTime.of(16, 30)});
+        horarios.add(new LocalTime[]{LocalTime.of(16, 30), LocalTime.of(17, 30)});
 
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             if (esDiaLaboral(date)) {
@@ -233,6 +233,7 @@ public class TurnoServicio {
                 turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
                 turnoDto.setEstado(aux.isEstado());
                 turnoDto.setFeriado(aux.isFeriado());
+                turnoDto.setCosto(aux.getServicioPodo().getCosto());
                 turnoDto.setNombreServicio(aux.getServicioPodo() != null ? aux.getServicioPodo().getNombre() : null);
                 turnosDtos.add(turnoDto);
                 cont = cont + 1;
@@ -247,5 +248,55 @@ public class TurnoServicio {
             throw new RuntimeException("Error al obtener los turnos del mes" + e.getMessage());
         }
 
+    }
+
+    public List<TurnoDto> filtrarTurnoPorNombre(String nombre) {
+        List<Turno> listaTurnosNombre = turnoRepository.findByUsuarioNombre(nombre);
+        List<TurnoDto> listaTurnosNombreDto = new ArrayList<>();
+        for (Turno aux : listaTurnosNombre) {
+            TurnoDto turnoDto = new TurnoDto();
+            turnoDto.setId(aux.getId());
+            turnoDto.setStartTime(aux.getStartTime());
+            turnoDto.setEndTime(aux.getEndTime());
+            turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
+            turnoDto.setEstado(aux.isEstado());
+            turnoDto.setNombreServicio(aux.getServicioPodo().getNombre());
+            listaTurnosNombreDto.add(turnoDto);
+        }
+        return listaTurnosNombreDto;
+    }
+
+    public List<TurnoDto> filtrarTurnoPorServicio(String servicio) {
+        List<Turno> listaTurnosNombre = turnoRepository.findByServicioPodoNombre(servicio);
+        List<TurnoDto> listaTurnosServicioDto = new ArrayList<>();
+        for (Turno aux : listaTurnosNombre) {
+            TurnoDto turnoDto = new TurnoDto();
+            turnoDto.setId(aux.getId());
+            turnoDto.setStartTime(aux.getStartTime());
+            turnoDto.setEndTime(aux.getEndTime());
+            turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
+            turnoDto.setEstado(aux.isEstado());
+            turnoDto.setNombreServicio(aux.getServicioPodo().getNombre());
+            listaTurnosServicioDto.add(turnoDto);
+        }
+        return listaTurnosServicioDto;
+
+    }
+
+    public List<TurnoDto> filtrarTurnoPorDate(String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        List<Turno> listaTurnosNombre = turnoRepository.findTurnosByDiaFecha(localDate);
+        List<TurnoDto> listaTurnosDateDto = new ArrayList<>();
+        for (Turno aux : listaTurnosNombre) {
+            TurnoDto turnoDto = new TurnoDto();
+            turnoDto.setId(aux.getId());
+            turnoDto.setStartTime(aux.getStartTime());
+            turnoDto.setEndTime(aux.getEndTime());
+            turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
+            turnoDto.setEstado(aux.isEstado());
+            turnoDto.setNombreServicio(aux.getServicioPodo().getNombre());
+            listaTurnosDateDto.add(turnoDto);
+        }
+        return listaTurnosDateDto;
     }
 }

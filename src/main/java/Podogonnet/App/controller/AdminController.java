@@ -148,5 +148,29 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/filtrarTurnoPor")
+    public ResponseEntity<List<TurnoDto>> filtrarTurnoPor(String nombre, String servicio, String date) {
+
+        try {
+            if (!nombre.isEmpty()) {
+                List<TurnoDto> turnoDtos = turnoServicio.filtrarTurnoPorNombre(nombre);
+                return ResponseEntity.ok(turnoDtos);
+
+            } else if (!servicio.isEmpty()) {
+                List<TurnoDto> turnoDtos = turnoServicio.filtrarTurnoPorServicio(servicio);
+                return ResponseEntity.ok(turnoDtos);
+
+            } else {
+
+                List<TurnoDto> turnoDtos = turnoServicio.filtrarTurnoPorDate(date);
+                return ResponseEntity.ok(turnoDtos);
+
+            }
+
+
+        } catch (Exception e) {
+            throw new RuntimeException("Problemas al filtrar turno");
+        }
+    }
 
 }
