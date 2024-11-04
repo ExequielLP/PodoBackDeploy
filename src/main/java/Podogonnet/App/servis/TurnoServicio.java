@@ -233,7 +233,7 @@ public class TurnoServicio {
                 turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
                 turnoDto.setEstado(aux.isEstado());
                 turnoDto.setFeriado(aux.isFeriado());
-                turnoDto.setCosto(aux.getServicioPodo().getCosto());
+                turnoDto.setCosto(aux.getServicioPodo()!=null?aux.getServicioPodo().getCosto():0);
                 turnoDto.setNombreServicio(aux.getServicioPodo() != null ? aux.getServicioPodo().getNombre() : null);
                 turnosDtos.add(turnoDto);
                 cont = cont + 1;
@@ -294,7 +294,7 @@ public class TurnoServicio {
             turnoDto.setEndTime(aux.getEndTime());
             turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
             turnoDto.setEstado(aux.isEstado());
-            turnoDto.setNombreServicio(aux.getServicioPodo().getNombre());
+            turnoDto.setNombreServicio(Objects.isNull(aux.getServicioPodo()) ? null : aux.getServicioPodo().getNombre());
             listaTurnosDateDto.add(turnoDto);
         }
         return listaTurnosDateDto;
