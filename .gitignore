@@ -3,7 +3,7 @@ HELP.md
 
 ### Maven/Gradle ###
 build/
-### target/
+
 
 ### STS ###
 .apt_generated
@@ -28,7 +28,7 @@ application.properties
 /dist/
 /nbdist/
 /.nb-gradle/
-### /target/
+
 
 ### VS Code ###
 .vscode/

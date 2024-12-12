@@ -17,7 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 @Service
@@ -154,11 +157,11 @@ public class TurnoServicio {
 
     public void generarTurnos(LocalDate startDate, LocalDate endDate) {
         List<LocalTime[]> horarios = new ArrayList<>();
-        horarios.add(new LocalTime[] { LocalTime.of(9, 0), LocalTime.of(10, 0) });
-        horarios.add(new LocalTime[] { LocalTime.of(10, 30), LocalTime.of(11, 30) });
-        horarios.add(new LocalTime[] { LocalTime.of(14, 0), LocalTime.of(15, 0) });
-        horarios.add(new LocalTime[] { LocalTime.of(15, 30), LocalTime.of(16, 30) });
-        horarios.add(new LocalTime[] { LocalTime.of(16, 30), LocalTime.of(17, 30) });
+        horarios.add(new LocalTime[]{LocalTime.of(9, 0), LocalTime.of(10, 0)});
+        horarios.add(new LocalTime[]{LocalTime.of(10, 30), LocalTime.of(11, 30)});
+        horarios.add(new LocalTime[]{LocalTime.of(14, 0), LocalTime.of(15, 0)});
+        horarios.add(new LocalTime[]{LocalTime.of(15, 30), LocalTime.of(16, 30)});
+        horarios.add(new LocalTime[]{LocalTime.of(16, 30), LocalTime.of(17, 30)});
 
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             if (esDiaLaboral(date)) {
@@ -233,6 +236,7 @@ public class TurnoServicio {
                 turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
                 turnoDto.setEstado(aux.isEstado());
                 turnoDto.setFeriado(aux.isFeriado());
+                turnoDto.setCosto(aux.getServicioPodo() != null ? aux.getServicioPodo().getCosto() : 0);
                 turnoDto.setNombreServicio(aux.getServicioPodo() != null ? aux.getServicioPodo().getNombre() : null);
                 turnosDtos.add(turnoDto);
                 cont = cont + 1;
@@ -247,5 +251,82 @@ public class TurnoServicio {
             throw new RuntimeException("Error al obtener los turnos del mes" + e.getMessage());
         }
 
+    }
+
+//    public List<TurnoDto> filtrarTurnoPorNombre(String nombre) {
+//        List<Turno> listaTurnosNombre = turnoRepository.findByUsuarioNombre(nombre);
+//        List<TurnoDto> listaTurnosNombreDto = new ArrayList<>();
+//        for (Turno aux : listaTurnosNombre) {
+//            TurnoDto turnoDto = new TurnoDto();
+//            turnoDto.setId(aux.getId());
+//            turnoDto.setStartTime(aux.getStartTime());
+//            turnoDto.setEndTime(aux.getEndTime());
+//            turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
+//            turnoDto.setEstado(aux.isEstado());
+//            turnoDto.setNombreServicio(aux.getServicioPodo().getNombre());
+//            listaTurnosNombreDto.add(turnoDto);
+//        }
+//        return listaTurnosNombreDto;
+//    }
+//
+//    public List<TurnoDto> filtrarTurnoPorServicio(String servicio) {
+//        List<Turno> listaTurnosNombre = turnoRepository.findByServicioPodoNombre(servicio);
+//        List<TurnoDto> listaTurnosServicioDto = new ArrayList<>();
+//        for (Turno aux : listaTurnosNombre) {
+//            TurnoDto turnoDto = new TurnoDto();
+//            turnoDto.setId(aux.getId());
+//            turnoDto.setStartTime(aux.getStartTime());
+//            turnoDto.setEndTime(aux.getEndTime());
+//            turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
+//            turnoDto.setEstado(aux.isEstado());
+//            turnoDto.setNombreServicio(aux.getServicioPodo().getNombre());
+//            listaTurnosServicioDto.add(turnoDto);
+//        }
+//        return listaTurnosServicioDto;
+//
+//    }
+//
+//    public List<TurnoDto> filtrarTurnoPorDate(String date) {
+//        LocalDate localDate = LocalDate.parse(date);
+//        List<Turno> listaTurnosNombre = turnoRepository.findTurnosByDiaFecha(localDate);
+//        List<TurnoDto> listaTurnosDateDto = new ArrayList<>();
+//        for (Turno aux : listaTurnosNombre) {
+//            TurnoDto turnoDto = new TurnoDto();
+//            turnoDto.setId(aux.getId());
+//            turnoDto.setStartTime(aux.getStartTime());
+//            turnoDto.setEndTime(aux.getEndTime());
+//            turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
+//            turnoDto.setEstado(aux.isEstado());
+//            turnoDto.setNombreServicio(Objects.isNull(aux.getServicioPodo()) ? null : aux.getServicioPodo().getNombre());
+//            listaTurnosDateDto.add(turnoDto);
+//        }
+//        return listaTurnosDateDto;
+//    }
+
+    public List<TurnoDto> filtrarMultifiltro(String name, String servicio, String fecha) {
+        Date sqlDate = null;
+        LocalDate localDate = null;
+        if (fecha != null && !fecha.isEmpty()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+             localDate = LocalDate.parse(fecha, formatter);
+            sqlDate = Date.valueOf(localDate);
+            System.out.println("-------------------------------------------------------------------");
+            System.out.println(localDate);
+
+        }
+
+        List<Turno> listaTurnosNombre = turnoRepository.searchByCriteria(name, servicio, localDate);
+        List<TurnoDto> listaTurnosServicioDto = new ArrayList<>();
+        for (Turno aux : listaTurnosNombre) {
+            TurnoDto turnoDto = new TurnoDto();
+            turnoDto.setId(aux.getId());
+            turnoDto.setStartTime(aux.getStartTime());
+            turnoDto.setEndTime(aux.getEndTime());
+            turnoDto.setTurnoSuspendible(aux.isTurnoSuspendible());
+            turnoDto.setEstado(aux.isEstado());
+            turnoDto.setNombreServicio(aux.getServicioPodo().getNombre());
+            listaTurnosServicioDto.add(turnoDto);
+        }
+        return listaTurnosServicioDto;
     }
 }

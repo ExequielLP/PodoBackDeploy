@@ -21,5 +21,6 @@ public class TurnoDto {
     private boolean estado;
     private boolean turnoSuspendible;
     private boolean feriado;
+    private double costo;
 
 }

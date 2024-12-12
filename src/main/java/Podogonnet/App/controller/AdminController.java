@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -139,14 +140,42 @@ public class AdminController {
         try {
 
             LocalDate localDate = LocalDate.parse(date);
-            System.out.println("holi");
+
             List<TurnoDto> listaTurno = turnoServicio.turnosDelMes(localDate);
-            System.out.println(listaTurno);
+
             return ResponseEntity.ok(listaTurno);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
+    @GetMapping("/filtrarTurnoPor")
+    public ResponseEntity<List<TurnoDto>> filtrarTurnoPor(@RequestParam(required = false) String nombre, @RequestParam(required = false) String servicio, @RequestParam(required = false) String fecha) {
+
+        try {
+//            if ( nombre!=null) {
+//                System.out.println("nombreeeeeeeeee");
+//                List<TurnoDto> turnoDtos = turnoServicio.filtrarTurnoPorNombre(nombre);
+//                return ResponseEntity.ok(turnoDtos);
+//
+//            } else if (servicio!=null) {
+//                System.out.println("seriviciooooooooooo");
+//                List<TurnoDto> turnoDtos = turnoServicio.filtrarTurnoPorServicio(servicio);
+//                return ResponseEntity.ok(turnoDtos);
+//
+//            } else if (date!=null){
+//                System.out.println("holi");
+//                List<TurnoDto> turnoDtos = turnoServicio.filtrarTurnoPorDate(date);
+//                return ResponseEntity.ok(turnoDtos);
+
+            List<TurnoDto> turnoDtos = turnoServicio.filtrarMultifiltro(nombre, servicio, fecha);
+            return ResponseEntity.ok(turnoDtos);
+
+
+        } catch (Exception e) {
+            throw new RuntimeException("Problemas al filtrar turno" + e.getMessage());
+        }
+
+    }
 
 }

@@ -61,6 +61,8 @@ public class HttpSecurityConfig {
                             .permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/listaTurnoDelMesAdmin/{date}")
                             .permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.GET, "/adminController/filtrarTurnoPor")
+                            .permitAll();
 
 
                     // Rutas públicas
@@ -101,6 +103,7 @@ public class HttpSecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(Arrays.asList("Set-Cookie"));
         // configuration.setExposedHeaders(Arrays.asList("Set-Cookie"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

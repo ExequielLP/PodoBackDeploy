@@ -39,7 +39,7 @@ public class UsuarioControlador {
 
     @PostMapping("/register")
     public ResponseEntity<RegisterUser> register(@RequestBody SaveUser newUser) throws Exception {
-        System.out.println("holaaaaaaaaaaaaa");
+
         RegisterUser registerUser = autheticateService.registerOneCostumer(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(registerUser);
         /* return ResponseEntity.ok(RegisterUser registerUser= autheticateService.regusterOneCustumer(newUser);); */
