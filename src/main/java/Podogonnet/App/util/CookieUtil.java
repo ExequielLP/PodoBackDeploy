@@ -34,7 +34,7 @@ public class CookieUtil {
         if ("localDBlocal".equalsIgnoreCase(environment)){
             domein="localhost";
 
-        }else {domein="podobackdeploy.onrender.com";
+        }else {domein="onrender.com";
 
         }
 
