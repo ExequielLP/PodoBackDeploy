@@ -85,7 +85,7 @@ public class AutheticateService {
         if ("localDBlocal".equalsIgnoreCase(environment)){
             domein="localhost";
             System.out.println(domein);
-        }else {domein="podobackdeploy.onrender.com";
+        }else {domein=".onrender.com";
             System.out.println(domein);
         }
 
