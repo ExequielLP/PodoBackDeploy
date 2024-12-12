@@ -28,30 +28,29 @@ public class CookieUtil {
 //       cookie.setPath("/");
 //       httpResponse.addCookie(cookie);
     }
-    public static void clearCookie(HttpServletResponse httpServletResponse,String name){
+    public static void clearCookie(HttpServletResponse httpServletResponse, String name) {
         String environment = System.getenv("ENTORNO");
-        String domein="";
-        if ("localDBlocal".equalsIgnoreCase(environment)){
-            domein="localhost";
+        String domain;
 
-        }else {domein="onrender.com";
-
+        // Configura el dominio según el entorno
+        if ("localDBlocal".equalsIgnoreCase(environment)) {
+            domain = "localhost";
+        } else {
+            domain = ".onrender.com"; // Incluye el punto para que sea válido para subdominios
         }
 
-        ResponseCookie cookie = ResponseCookie.from(name, null)
-                .domain(domein)
-                .path("/")
-                .maxAge(0)  // Establece el tiempo de expiración en segundos
-                .secure(true)    // Configura la cookie como segura
-                .httpOnly(true)  // Solo accesible mediante HTTP (no JavaScript)
-                .sameSite("None") // Define la política de SameSite
+        // Construcción de la cookie para eliminarla
+        ResponseCookie cookie = ResponseCookie.from(name, null) // Valor nulo para eliminarla
+                .domain(domain)        // Dominio de la cookie
+                .path("/")             // Válido para todas las rutas
+                .maxAge(0)             // Expira inmediatamente
+                .secure(true)          // Solo se envía en conexiones HTTPS
+                .httpOnly(true)        // No accesible desde JavaScript
+                .sameSite("None")      // Permite solicitudes entre dominios
                 .build();
+
+        // Agrega la cookie al encabezado de la respuesta
         httpServletResponse.addHeader("Set-Cookie", cookie.toString());
-//        Cookie cookie=new Cookie(name,null);
-//        cookie.setPath("/");
-//        cookie.setDomain("podobackdeploy.onrender.com");
-//        cookie.setHttpOnly(true);
-//        cookie.setMaxAge(0);
-//        httpServletResponse.addCookie(cookie);
     }
+
 }
