@@ -86,6 +86,7 @@ public class AutheticateService {
             domein="localhost";
             System.out.println(domein);
         }else {domein=".onrender.com";
+            System.out.println("------------------+++++++--------------++++++++++---------------+++++++++");
             System.out.println(domein);
         }
 
