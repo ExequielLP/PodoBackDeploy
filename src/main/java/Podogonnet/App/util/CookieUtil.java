@@ -36,7 +36,7 @@ public class CookieUtil {
         if ("localDBlocal".equalsIgnoreCase(environment)) {
             domain = "localhost";
         } else {
-            domain = ".onrender.com"; // Incluye el punto para que sea válido para subdominios
+            domain = "podobackdeploy.onrender.com"; // Incluye el punto para que sea válido para subdominios
         }
 
         // Construcción de la cookie para eliminarla
